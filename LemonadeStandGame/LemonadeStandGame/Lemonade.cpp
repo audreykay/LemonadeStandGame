@@ -76,13 +76,21 @@ void shopMenu()
 			cout<< "How many Lemon(s) would you like to buy? ";
 			cin>> iStockNumber;
 			cout<<endl;
+			system("cls");
+			if(fMoneyOnHand < iStockNumber*COST_LEMON)
+			{
+				cout<<"*~*Insufficient Funds*~*"<<endl;
+				shopMenu();
+			}
+			else
+			{
 			fStockLemon = fStockLemon+(iStockNumber);	
 			fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_LEMON);
-			system("cls");
 			cout<< "You purchased "<<iStockNumber<<" Lemon(s)"<<endl;
 			cout<< "Lemon(s) in stock: "<<fStockLemon<<endl;
 			cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
 			shopMenu();
+			}
 			}
 			break;
 		case 2://Buy x Bags of Sugar
@@ -90,13 +98,21 @@ void shopMenu()
 			cout<< "How many Bag(s) of Sugar would you like to buy? ";
 			cin>> iStockNumber;
 			cout<<endl;
+			system("cls");
+			if(fMoneyOnHand < iStockNumber*COST_SUGAR)
+			{
+				cout<<"*~*Insufficient Funds*~*"<<endl;
+				shopMenu();
+			}
+			else
+			{
 			fStockSugar = fStockSugar+(iStockNumber*8);	
 			fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_SUGAR);
-			system("cls");
 			cout<< "You purchased "<<iStockNumber<<" Bag(s) of Sugar"<<endl;
 			cout<< "Cup(s) of Sugar in stock: "<<fStockSugar<<endl;
 			cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
 			shopMenu();
+			}
 			}
 			break;
 		case 3://Buy x Bags of Ice
@@ -104,13 +120,21 @@ void shopMenu()
 			cout<< "How many Bag(s) of Ice would you like to buy? ";
 			cin>> iStockNumber;
 			cout<<endl;
+			system("cls");
+			if(fMoneyOnHand < iStockNumber*COST_ICE)
+			{
+				cout<<"*~*Insufficient Funds*~*"<<endl;
+				shopMenu();
+			}
+			else
+			{
 			fStockIce = fStockIce+(iStockNumber*20);	
 			fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_ICE);
-			system("cls");
 			cout<< "You purchased "<<iStockNumber<<" Bag(s) of Ice"<<endl;
 			cout<< "Cup(s) of Ice in stock: "<<fStockIce<<endl;
 			cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
 			shopMenu();
+			}
 			}
 			break;
 		case 4://exit to main menu
