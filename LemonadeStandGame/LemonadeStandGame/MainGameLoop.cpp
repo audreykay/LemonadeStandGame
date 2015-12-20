@@ -42,7 +42,7 @@ int PlayGame()
 	extern void displayStock();
 	extern void displayFinances();
 	extern void displayBuyStock();
-	
+	extern void makeLemonade();
 
 	//PRE-GAME WARNINGS
 	//cout<<"*WARNING* PLAYER MUST BUY STOCK AND MAKE LEMONADE BEFORE THE STALL CAN OPEN"<<endl;
@@ -117,9 +117,7 @@ int PlayGame()
 			stateGame=MAKE_LEMONADE;
 			{//code here
 			system("cls");
-			cout<<"YUM YUM"<<endl;
-			system("pause");
-			cin >>iChoice;
+			makeLemonade();
 			}
 			break;
 

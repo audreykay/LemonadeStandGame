@@ -18,7 +18,8 @@ using namespace std;
 	extern float fLemonadeMoney;
 	extern float fMoneySpent;
 
-//Main Menu
+//making lemonade
+	bool bMakeLemonade = true;
 
 
 //default stock display
@@ -82,10 +83,11 @@ void shopMenu()
 				cout<<"*~*Insufficient Funds*~*"<<endl;
 				shopMenu();
 			}
-			else
+			else //enough money to buy lemon(s)
 			{
 			fStockLemon = fStockLemon+(iStockNumber);	
 			fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_LEMON);
+			fMoneySpent = fMoneySpent+(iStockNumber*COST_LEMON);
 			cout<< "You purchased "<<iStockNumber<<" Lemon(s)"<<endl;
 			cout<< "Lemon(s) in stock: "<<fStockLemon<<endl;
 			cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
@@ -104,10 +106,11 @@ void shopMenu()
 				cout<<"*~*Insufficient Funds*~*"<<endl;
 				shopMenu();
 			}
-			else
+			else //enough money to buy sugar
 			{
 			fStockSugar = fStockSugar+(iStockNumber*8);	
 			fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_SUGAR);
+			fMoneySpent = fMoneySpent+(iStockNumber*COST_SUGAR);
 			cout<< "You purchased "<<iStockNumber<<" Bag(s) of Sugar"<<endl;
 			cout<< "Cup(s) of Sugar in stock: "<<fStockSugar<<endl;
 			cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
@@ -126,10 +129,11 @@ void shopMenu()
 				cout<<"*~*Insufficient Funds*~*"<<endl;
 				shopMenu();
 			}
-			else
+			else //enough money to buy ice
 			{
 			fStockIce = fStockIce+(iStockNumber*20);	
 			fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_ICE);
+			fMoneySpent = fMoneySpent+(iStockNumber*COST_ICE);
 			cout<< "You purchased "<<iStockNumber<<" Bag(s) of Ice"<<endl;
 			cout<< "Cup(s) of Ice in stock: "<<fStockIce<<endl;
 			cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
@@ -181,3 +185,62 @@ void displayBuyStock()
 
 	}
 
+void makeLemonade()
+{
+	int iLemonadeJug;
+	int iLemonadeChoice;
+
+	//while(bMakeLemonade = true)
+	//{
+		displayStock();
+		cout<<endl;
+		cout<<"1.	Make Lemonade"<<endl;
+		cout<<"2.	Exit to Menu"<<endl;
+		cout<<"Please enter a number: ";
+		cin>>iLemonadeChoice;
+
+		switch (iLemonadeChoice)
+	{	
+		case 1:
+			{
+		cout<<"How many jugs of lemonade would you like to make? ";
+		cin>>iLemonadeJug;
+		cout<<endl;
+		//check there is enough stock to make lemonade
+		if ((fStockLemon >= iLemonadeJug*RECIPE_LEMON)
+			&& (fStockSugar >= iLemonadeJug*RECIPE_SUGAR)
+			&& (fStockIce >= iLemonadeJug*RECIPE_ICE))
+		{
+			system("cls");
+			cout<<"You made "<<iLemonadeJug<<" jug(s) of Lemonade!"<<endl;
+			fStockLemon = fStockLemon-(iLemonadeJug*RECIPE_LEMON);
+			fStockSugar = fStockSugar-(iLemonadeJug*RECIPE_SUGAR);
+			fStockIce = fStockIce-(iLemonadeJug*RECIPE_ICE);
+			fStockLemonade = fStockLemonade+(iLemonadeJug*6);
+			makeLemonade();
+		}
+		else //not enough stock
+		{
+			system("cls");
+			cout<<"*~*Insufficient Ingredients!*~*"<<endl;
+			makeLemonade();
+		}
+		}
+			break;
+		case 2:
+			bMakeLemonade = false;
+			switch(GAMESTATE::MAIN_MENU)
+			{
+				//case MAIN_MENU;
+			}
+			break;
+		default:
+			{
+				cout<<"*~*Please enter a valid number*~*"<<endl;
+				makeLemonade();
+			}
+			break;
+	}
+
+	//}
+}
