@@ -44,9 +44,6 @@ int PlayGame()
 	extern void displayBuyStock();
 	extern void makeLemonade();
 
-	//PRE-GAME WARNINGS
-	//cout<<"*WARNING* PLAYER MUST BUY STOCK AND MAKE LEMONADE BEFORE THE STALL CAN OPEN"<<endl;
-
 	int iChoice;
 	//MAIN GAME MENU
 	system("cls");
@@ -64,7 +61,15 @@ int PlayGame()
 	//main game loop
 	while(!bGameOver)
 	{
-			if(fMoneyOnHand <= 1)
+		//updateCustomerTimer();
+
+		if( _kbhit() )
+		{
+			//HandleInput();
+		}
+
+		
+	if(fMoneyOnHand <= 1)
 	{
 		bGameOver = !bGameOver;
 		stateGame=LOSE_GAME;
@@ -89,10 +94,8 @@ int PlayGame()
 	{
 		
 		case 1: //View Finances/Stock
-			
 			stateGame=VIEW_FINANCES;
 			{//code here
-			
 			system("cls");
 			displayStock();
 			displayFinances();
@@ -100,7 +103,6 @@ int PlayGame()
 			stateGame=MAIN_MENU;
 			}
 			break;
-			
 
 		case 2: //View/Buy Stock
 			stateGame=VIEW_STOCK;

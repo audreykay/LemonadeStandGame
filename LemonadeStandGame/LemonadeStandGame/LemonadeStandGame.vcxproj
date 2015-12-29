@@ -76,10 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Customer.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Lemonade.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Customer.cpp" />
     <ClCompile Include="Defines.cpp" />
     <ClCompile Include="Lemonade.cpp" />
     <ClCompile Include="MainGameLoop.cpp" />
