@@ -3,6 +3,7 @@
 
 //include headers
 #include "Defines.h"
+#include "Customer.h"
 #include "Lemonade.h"
 #include <conio.h>
 
@@ -14,6 +15,13 @@ extern enum GAMESTATE;
 
 //gamestate
 bool bGameOver = false;
+
+
+	void HandleInput()
+	{
+		char c = getchar();
+		fflush( stdin );
+	}
 
 int PlayGame()
 {
@@ -43,6 +51,7 @@ int PlayGame()
 	extern void displayFinances();
 	extern void displayBuyStock();
 	extern void makeLemonade();
+	extern void updateCustomerTimer();
 
 	int iChoice;
 	//MAIN GAME MENU
@@ -61,11 +70,11 @@ int PlayGame()
 	//main game loop
 	while(!bGameOver)
 	{
-		//updateCustomerTimer();
+		updateCustomerTimer();
 
 		if( _kbhit() )
 		{
-			//HandleInput();
+			HandleInput();
 		}
 
 		

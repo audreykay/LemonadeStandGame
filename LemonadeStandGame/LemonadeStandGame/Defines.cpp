@@ -1,5 +1,8 @@
 //include matching header
 #include "Defines.h"
+#include "Customer.h"
+#include "Lemonade.h"
+#include "MainGameLoop.h"
 
 //stock
 float fStockLemon = 0;
@@ -14,6 +17,6 @@ float fLemonadePrice = 2.5;
 int iLemonadeSold = 0;
 
 //money business
-float fLemonadeMoney = fLemonadePrice*iLemonadeSold;
+float fLemonadeProfit = 0;
 float fMoneySpent = 0;
 float fMoneyOnHand = 50;

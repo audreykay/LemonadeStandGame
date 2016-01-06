@@ -4,6 +4,7 @@
 //include iostream and namespace (needed for each header)
 #include <iostream>
 #include "Defines.h"
+
 using namespace std;
 
 //external constants

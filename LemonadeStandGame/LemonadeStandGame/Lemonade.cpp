@@ -1,6 +1,8 @@
 //include matching header
 #include "Lemonade.h"
+#include "Customer.h"
 #include "Defines.h"
+#include "MainGameLoop.h"
 
 //use namespace std
 using namespace std;
@@ -15,8 +17,9 @@ using namespace std;
 //finance externals
 	extern float fMoneyOnHand;
 	extern int iLemonadeSold;
-	extern float fLemonadeMoney;
+	extern float fLemonadeProfit;
 	extern float fMoneySpent;
+	extern float fLemonadePrice;
 
 //making lemonade
 	bool bMakeLemonade = true;
@@ -39,8 +42,7 @@ void displayStock()
 //See Finances Menu
 void displayFinances()
 	{
-
-		float fProfit = fLemonadeMoney - fMoneySpent;
+		float fProfit = (fLemonadeProfit - fMoneySpent);
 
 		cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
 		cout <<"Cups of Lemonade sold: "<< iLemonadeSold <<endl;
