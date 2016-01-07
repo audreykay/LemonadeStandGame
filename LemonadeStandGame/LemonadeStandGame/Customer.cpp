@@ -24,7 +24,7 @@ void updateCustomerTimer()
 		iLemonadeSold = iLemonadeSold + iCups;
 		cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 		system("pause");
-		updateCustomerTimer();
+		//updateCustomerTimer();
 	}
 	else if( fStockLemonade == 0 ) //If player has no stock
 	{

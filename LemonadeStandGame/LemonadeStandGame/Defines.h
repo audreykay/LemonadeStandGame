@@ -32,4 +32,4 @@ const int MAX_CUPS = 10;
 const int MIN_CUPS = 1;
 
 //win win win
-const int MONETARY_GOAL = 5000;
+const int MONETARY_GOAL = 500;

@@ -57,7 +57,7 @@ int PlayGame()
 
 		if(fMoneyOnHand <= 1) //If player goes bankrupt
 		{
-			bGameOver = !bGameOver;
+			bGameOver = true;
 			stateGame=LOSE_GAME;
 			system("cls");
 			cout << "YOU'RE BANKRUPT!"<<endl;
@@ -66,10 +66,10 @@ int PlayGame()
 			system("pause");
 			return 0;
 		}
-		else if(fMoneyOnHand == MONETARY_GOAL) //If player reaches goal
+		else if(fMoneyOnHand >= MONETARY_GOAL) //If player reaches goal
 		{
+			bGameOver = true;
 			stateGame=WIN_GAME;
-			bGameOver = !bGameOver;
 			system("cls");
 			cout << "YOU WIN, YOU ENTREPRENEURIAL GENIUS!"<<endl;
 			system("pause");
