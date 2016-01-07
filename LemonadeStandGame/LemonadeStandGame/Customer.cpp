@@ -7,18 +7,7 @@
 //use namespace std
 using namespace std;
 
-//external constants/variables
-extern const int MAX_CUPS;
-extern const int MIN_CUPS;
-
-extern float fLemonadePrice;
-
-extern float fStockLemonade;
-extern float fMoneyOnHand;
-extern int iLemonadeSold;
-extern float fLemonadeProfit;
-
-//Missed cups sold
+//# of cups missed out on selling
 int iMissedCups;
 
 void updateCustomerTimer()
@@ -26,7 +15,7 @@ void updateCustomerTimer()
 	//random cup number gen
 	int iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;
 
-	if( fStockLemonade >= iCups )
+	if( fStockLemonade >= iCups ) //If player has sufficient stock
 	{
 		system("cls");
 		fStockLemonade = fStockLemonade - iCups;
@@ -35,8 +24,9 @@ void updateCustomerTimer()
 		iLemonadeSold = iLemonadeSold + iCups;
 		cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 		system("pause");
+		updateCustomerTimer();
 	}
-	else if( fStockLemonade == 0 )
+	else if( fStockLemonade == 0 ) //If player has no stock
 	{
 		system("cls");
 
@@ -45,7 +35,7 @@ void updateCustomerTimer()
 
 		system("pause");
 	}
-	else
+	else //Player has insufficient stock
 	{
 		system("cls");
 		iMissedCups = (iCups - fStockLemonade);
@@ -53,7 +43,7 @@ void updateCustomerTimer()
 		cout<<"*!* You sold "<<fStockLemonade<<" cups of Lemonade and earned $"<<(fLemonadePrice*fStockLemonade)<<" *!*"<<endl;
 		cout<<"*!* You could have sold "<<iMissedCups<<" more cups of Lemonade, if you had stock *!*"<<endl;
 		cout<<"*!* You now have no Lemonade in stock and need to make more *!*"<<endl;
-		
+		//check stock, add funds, decrease stock, etc
 		fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*fStockLemonade));
 		fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*fStockLemonade));
 		iLemonadeSold = iLemonadeSold + fStockLemonade;

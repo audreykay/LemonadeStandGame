@@ -17,9 +17,6 @@ enum GAMESTATE
 	LOSE_GAME
 };
 
-//lemonade price
-const float PRICE_LEMONADE = 2.20f;
-
 //lemonade recipe
 const float RECIPE_LEMON = 2.5f;
 const float RECIPE_SUGAR = 3.0f;

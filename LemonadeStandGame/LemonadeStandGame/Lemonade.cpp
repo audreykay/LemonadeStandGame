@@ -7,23 +7,8 @@
 //use namespace std
 using namespace std;
 
-
-//stock externals
-	extern float fStockLemon;
-	extern float fStockSugar;
-	extern float fStockIce;
-	extern float fStockLemonade;
-
-//finance externals
-	extern float fMoneyOnHand;
-	extern int iLemonadeSold;
-	extern float fLemonadeProfit;
-	extern float fMoneySpent;
-	extern float fLemonadePrice;
-
-//making lemonade
-	bool bMakeLemonade = true;
-
+//making lemonade loop
+bool bMakeLemonade = true;
 
 //default stock display
 void displayStock()
@@ -160,33 +145,36 @@ void shopMenu()
 
 	}
 
+void displayRecipe()
+{
+	cout<< "------"<<endl;
+	cout<< "Recipe: ONE JUG LEMONADE"<<endl;
+	cout<< "------"<<endl;
+	cout<< RECIPE_LEMON << " Lemons" <<endl;
+	cout<< RECIPE_SUGAR << " Cups of Sugar" <<endl;
+	cout<< RECIPE_ICE << " Cups of Ice" <<endl;
+	cout<< endl;
+}
+
 //Buy Stock Menu
 void displayBuyStock()
-	{
-		extern float fMoneyOnHand;
-		
-		cout<< "------"<<endl;
-		cout<< "Recipe: ONE JUG LEMONADE"<<endl;
-		cout<< "------"<<endl;
-		cout<< RECIPE_LEMON << " Lemons" <<endl;
-		cout<< RECIPE_SUGAR << " Cups of Sugar" <<endl;
-		cout<< RECIPE_ICE << " Cups of Ice" <<endl;
-		cout<< endl;
-		cout<< "------"<<endl;
-		cout<< "Stock Prices"<<endl;
-		cout<< "------"<<endl;
-		cout<< "Lemons: $"<<COST_LEMON<< " each"<<endl;
-		cout<< "Sugar: $"<<COST_SUGAR<< " per bag (8 cups)"<<endl;
-		cout<< "Ice: $"<<COST_ICE<< " per bag (20 cups)"<<endl;
-		cout<<endl;
-		cout<< "Cash on Hand: $"<< fMoneyOnHand <<endl;
-		cout<<endl;
-		displayStock();
-		cout<<endl;
-		shopMenu();
+{
+	displayRecipe();
+	cout<< "------"<<endl;
+	cout<< "Stock Prices"<<endl;
+	cout<< "------"<<endl;
+	cout<< "Lemons: $"<<COST_LEMON<< " each"<<endl;
+	cout<< "Sugar: $"<<COST_SUGAR<< " per bag (8 cups)"<<endl;
+	cout<< "Ice: $"<<COST_ICE<< " per bag (20 cups)"<<endl;
+	cout<<endl;
+	cout<< "Cash on Hand: $"<< fMoneyOnHand <<endl;
+	cout<<endl;
+	displayStock();
+	cout<<endl;
+	shopMenu();
+}
 
-	}
-
+//Making Lemonade menu
 void makeLemonade()
 {
 	int iLemonadeJug;

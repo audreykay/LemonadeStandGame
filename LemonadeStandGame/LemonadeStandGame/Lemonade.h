@@ -8,12 +8,23 @@
 using namespace std;
 
 //external constants
-		extern const float RECIPE_LEMON;
-		extern const float RECIPE_SUGAR;
-		extern const float RECIPE_ICE;
+extern const float RECIPE_LEMON;
+extern const float RECIPE_SUGAR;
+extern const float RECIPE_ICE;
 		
+extern const float COST_LEMON;
+extern const float COST_SUGAR;
+extern const float COST_ICE;
 
-		extern const float COST_LEMON;
-		extern const float COST_SUGAR;
-		extern const float COST_ICE;
+//stock externals
+extern float fStockLemon;
+extern float fStockSugar;
+extern float fStockIce;
+extern float fStockLemonade;
 
+//finance externals
+extern float fMoneyOnHand;
+extern int iLemonadeSold;
+extern float fLemonadeProfit;
+extern float fMoneySpent;
+extern float fLemonadePrice;

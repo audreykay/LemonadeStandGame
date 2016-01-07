@@ -5,6 +5,7 @@
 #include "Defines.h"
 #include "Customer.h"
 #include "Lemonade.h"
+#include "MainGameLoop.h"
 #include <conio.h>
 
 //make namespace std global
@@ -16,44 +17,22 @@ extern enum GAMESTATE;
 //gamestate
 bool bGameOver = false;
 
+//HandleInput
+void HandleInput()
+{
+	char c = getchar();
+	fflush( stdin );
+}
 
-	void HandleInput()
-	{
-		char c = getchar();
-		fflush( stdin );
-	}
-
+//Main Game Function
 int PlayGame()
 {
 	//access enum
 	GAMESTATE stateGame = MAIN_MENU;
 
-	//access global variables
-	//stock
-	extern float fStockLemon;
-	extern float fStockSugar;
-	extern float fStockIce;
-	extern float fStockLemonade;
-
-	//price of lemonade per cup
-	extern float fLemonadePrice;
-
-	//cups of lemonade sold
-	extern int iLemonadeSold;
-
-	//money business
-	extern float fLemonadeMoney;
-	extern float fMoneySpent;
-	extern float fMoneyOnHand;
-
-	//lemonade externals
-	extern void displayStock();
-	extern void displayFinances();
-	extern void displayBuyStock();
-	extern void makeLemonade();
-	extern void updateCustomerTimer();
-
+	//Player Choice
 	int iChoice;
+	
 	//MAIN GAME MENU
 	system("cls");
 	cout <<"------" <<endl;
@@ -66,7 +45,6 @@ int PlayGame()
 	cout <<"Please enter a number: ";
 	cin >>iChoice;
 
-
 	//main game loop
 	while(!bGameOver)
 	{
@@ -77,34 +55,33 @@ int PlayGame()
 			HandleInput();
 		}
 
-		
-	if(fMoneyOnHand <= 1)
-	{
-		bGameOver = !bGameOver;
-		stateGame=LOSE_GAME;
-		system("cls");
-		cout << "YOU'RE BANKRUPT!"<<endl;
-		cout<<endl;
-		cout << "YOU LOSE, YOU ENTREPRENEURIAL FAILURE!"<<endl;
-		system("pause");
-		return 0;
-	}
-	else if(fMoneyOnHand >= 5000)
-	{
-		stateGame=WIN_GAME;
-		bGameOver = !bGameOver;
-		system("cls");
-		cout << "YOU WIN, YOU ENTREPRENEURIAL GENIUS!"<<endl;
-		system("pause");
-		return 0;
-	}
-	//game menu switch statement
-	switch (iChoice)
-	{
+		if(fMoneyOnHand <= 1) //If player goes bankrupt
+		{
+			bGameOver = !bGameOver;
+			stateGame=LOSE_GAME;
+			system("cls");
+			cout << "YOU'RE BANKRUPT!"<<endl;
+			cout<<endl;
+			cout << "YOU LOSE, YOU ENTREPRENEURIAL FAILURE!"<<endl;
+			system("pause");
+			return 0;
+		}
+		else if(fMoneyOnHand == MONETARY_GOAL) //If player reaches goal
+		{
+			stateGame=WIN_GAME;
+			bGameOver = !bGameOver;
+			system("cls");
+			cout << "YOU WIN, YOU ENTREPRENEURIAL GENIUS!"<<endl;
+			system("pause");
+			return 0;
+		}
+		//game menu switch statement
+		switch (iChoice)
+		{
 		
 		case 1: //View Finances/Stock
 			stateGame=VIEW_FINANCES;
-			{//code here
+			{
 			system("cls");
 			displayStock();
 			displayFinances();
@@ -115,7 +92,7 @@ int PlayGame()
 
 		case 2: //View/Buy Stock
 			stateGame=VIEW_STOCK;
-			{//code here
+			{
 			system("cls");
 			//displayStock();
 			displayBuyStock();
@@ -126,22 +103,28 @@ int PlayGame()
 
 		case 3: //Make Lemonade
 			stateGame=MAKE_LEMONADE;
-			{//code here
+			{
 			system("cls");
+			displayRecipe();
 			makeLemonade();
 			}
 			break;
 
 		case 4: //Exit to Main Menu
 			system("cls");
+			cout << "Now returning to Main Menu" <<endl;
+			system("pause");
+			system("cls");
 			return 0;
 			break;
 
-		default:
-			cout<<"*~*Please enter a valid number*~*"<<endl;
-			cin >>iChoice;
-			continue;
+		default:  //invalid choice
+		system("cls");
+		cout<<"*~*Please enter a valid number*~*"<<endl;
+		system("pause");
+			break;
 		}	
+		//redisplay menu
 		system("cls");
 		cout <<"------" <<endl;
 		cout <<"Game Menu"<<endl;
@@ -152,21 +135,18 @@ int PlayGame()
 		cout <<"4.	Exit to Main Menu"<<endl;
 		cout <<"Please enter a number: ";
 		cin >>iChoice;
-	}
-	
-	
+		}
+	//end playgame function
 	}
 
-
+// introductory menu
 int main(int argc, const char*argv[])
 {
-	//PRE-GAME WARNINGS
-	cout<<"*~*WARNING*~*"<<endl;
-	cout<<"PLAYER MUST BUY STOCK AND MAKE LEMONADE BEFORE THE STALL CAN OPEN"<<endl;
-	cout<<"*~*WARNING*~*"<<endl;
+
 	int iMenuChoice;
 
 	//place menu here and get users choice
+	system("cls");
 	cout << "------" <<endl;
 	cout << "Main Menu" <<endl;
 	cout << "------" <<endl;
@@ -182,12 +162,12 @@ int main(int argc, const char*argv[])
 	{
 		switch(iMenuChoice)
 		{
-		case 1:
+		case 1: //Play Game 
 			{
 			PlayGame();
 			}
 			break;
-		case 2:
+		case 2: //Instructions
 			{
 			system("cls");
 			cout << "------" <<endl;
@@ -197,11 +177,12 @@ int main(int argc, const char*argv[])
 			cout << "The Player must make jugs of Lemonade to sell before customers will come" <<endl;
 			cout << "The Player must manage stock and finances" <<endl;
 			cout << "If the Player's Cash On Hand falls below $1, the Player will become Bankrupt" <<endl;
+			cout<<endl;
 			}
 			break;
-		case 3:
+		case 3: //credits
 			{
-			const int DEV_YEAR = 2015;
+			const int DEV_YEAR = 2016;
 			int iGameVersion = 2;
 			//about the game
 			system("cls");
@@ -211,9 +192,10 @@ int main(int argc, const char*argv[])
 			cout << "Game Version: " << iGameVersion <<endl;
 			cout << "Company: Twoitle Games" <<endl;
 			cout << "Created in " << DEV_YEAR << " by Audrey Kay, an avid Lemongrab enthusiast." <<endl;
+			cout<<endl;
 			}
 			break;
-		case 4:
+		case 4: //exit game
 			{
 			system("cls");
 			cout << "Player has exited the game" <<endl;
@@ -221,11 +203,11 @@ int main(int argc, const char*argv[])
 			return 0; //exits the program
 			}
 			break;
-		default:
+		default: //invalid choice
 			{
-				cout << "Please choose a valid number: ";
-				cin >> iMenuChoice;
-				cout << endl;
+			cout << "Please choose a valid number! "<<endl;
+			system("pause");
+			system("cls");
 			}
 			break;
 		}
