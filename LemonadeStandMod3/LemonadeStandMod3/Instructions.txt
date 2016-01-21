@@ -1,0 +1,11 @@
+Welcome to the Lemonade Stand!
+
+*Life has given you lemons!
+*A Mysterious Benefactor has generously donated funds!
+*Your #LIFEGOALS are to Get That Cash! ($5,000 to be exact)
+
+To play Lemonade Stand, you will first need to buy stock and make Lemonade.
+You will need enough Lemonade to satiate your customers for the ENTIRE day.
+An in-game Day Cycle lasts approximately 1 minute.
+You will not be able to make Lemonade while you are selling Lemonade.
+Any Lemonade left at the end of day will be wasted.

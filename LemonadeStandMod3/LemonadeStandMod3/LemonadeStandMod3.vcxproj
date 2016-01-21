@@ -76,6 +76,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Customer.h" />
+    <ClInclude Include="DayCycle.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="Lemonade.h" />
+    <ClInclude Include="MainGameLoop.h" />
+    <ClInclude Include="OpeningMenu.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="DayCycle.cpp" />
+    <ClCompile Include="Defines.cpp" />
+    <ClCompile Include="Lemonade.cpp" />
+    <ClCompile Include="MainGameLoop.cpp" />
+    <ClCompile Include="OpeningMenu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
