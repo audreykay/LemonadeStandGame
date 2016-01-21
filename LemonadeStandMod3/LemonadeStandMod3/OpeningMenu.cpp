@@ -1,3 +1,6 @@
+//include this file once only
+#pragma once
+
 //include matching header
 #include "Defines.h"
 #include "OpeningMenu.h"
@@ -30,6 +33,7 @@ void displayInstructions()
 
 }
 
+extern void changeRecipe();
 int displayMainMenu()
 {
 	int iMenuChoice;
@@ -53,7 +57,7 @@ int displayMainMenu()
 		{
 		case 1: //Play Game 
 			{
-			//PlayGame();
+				changeRecipe();
 			}
 			break;
 		case 2: //Instructions
