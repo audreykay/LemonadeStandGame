@@ -30,3 +30,8 @@ float fMoneyOnHand = 50;
 
 //lemonade taste
 int iLemonadeTaste;
+
+//stock loss daily
+float fSugarLoss;
+float fIceLoss;
+float fLemonLoss;

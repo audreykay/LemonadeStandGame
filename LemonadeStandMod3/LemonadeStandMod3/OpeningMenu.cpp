@@ -33,7 +33,7 @@ void displayInstructions()
 
 }
 
-extern void changeRecipe();
+extern void displayBuyStock();
 int displayMainMenu()
 {
 	int iMenuChoice;
@@ -57,7 +57,7 @@ int displayMainMenu()
 		{
 		case 1: //Play Game 
 			{
-				changeRecipe();
+				displayBuyStock();
 			}
 			break;
 		case 2: //Instructions

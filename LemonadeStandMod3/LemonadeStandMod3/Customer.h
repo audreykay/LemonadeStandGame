@@ -5,3 +5,9 @@
 #include <iostream>
 using namespace std;
 
+extern int iLemonadeTaste;
+
+//stock loss
+extern float fSugarLoss;
+extern float fIceLoss;
+extern float fLemonLoss;

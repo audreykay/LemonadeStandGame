@@ -35,7 +35,7 @@ void displayFinances()
 
 	}
 
-//Buy Stock Menu
+//display buy stock
 void shopMenu()
 	{
 		//while(GAMESTATE::VIEW_STOCK)
@@ -157,7 +157,7 @@ void displayRecipe()
 }
 
 //Buy Stock Menu
-void displayBuyStock()
+void displayBuyStock() // stock prices
 {
 	displayRecipe();
 	cout<< "------"<<endl;
