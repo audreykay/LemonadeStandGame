@@ -27,3 +27,5 @@ extern float fLemonadeProfit;
 
 extern float fMoneySpent;
 extern float fLemonadePrice;
+
+extern struct RecipeStruct sLemonadeRecipe;

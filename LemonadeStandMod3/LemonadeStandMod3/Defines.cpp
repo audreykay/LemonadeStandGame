@@ -1,6 +1,5 @@
 //include matching header
 #include "Defines.h"
-#include "OpeningMenu.h"
 #include "MainGameLoop.h"
 #include "Customer.h"
 #include "DayCycle.h"

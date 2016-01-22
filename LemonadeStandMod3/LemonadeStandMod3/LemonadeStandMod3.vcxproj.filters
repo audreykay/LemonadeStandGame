@@ -21,9 +21,6 @@
     <ClInclude Include="MainGameLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpeningMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DayCycle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,9 +36,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainGameLoop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpeningMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DayCycle.cpp">

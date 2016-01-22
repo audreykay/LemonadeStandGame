@@ -1,6 +1,5 @@
 //include matching header
 #include "Defines.h"
-#include "OpeningMenu.h"
 #include "MainGameLoop.h"
 #include "Customer.h"
 #include "DayCycle.h"
@@ -10,6 +9,8 @@
 #include <iostream>
 #include <fstream>
 #include <conio.h>
+#include <windows.h>
+#include <string>
 using namespace std;
 
 //access GAMESTATE
@@ -17,6 +18,28 @@ extern enum GAMESTATE;
 
 //game loop
 bool bGameOver = false;
+
+//access the instruction text file
+void displayInstructions()
+{
+	char cReadString[80];
+	fstream fMyFile;
+	
+	fMyFile.open("Instructions.txt", ios::in);
+
+	if( fMyFile.is_open() )
+	{
+		while (fMyFile.getline( cReadString, 80) )
+		{
+			cout<<cReadString<<endl;
+		}
+		fMyFile.close();
+		fMyFile.clear();
+	}
+
+}
+
+
 
 int playGame()
 {
@@ -41,37 +64,52 @@ int playGame()
 	cin >>iChoice;
 
 	//main game menu loop
-	while(bGameOver=false)
+	while(!bGameOver)
 	{
 		switch(iChoice)
 		{
 		case 1: //View Stock/Finances
 			stateGame=VIEW_FINANCES;
 			{
+			system("cls");
+			displayStock();
+			displayFinances();
+			//system("pause");
+			stateGame=MAIN_MENU;
 			}
 			break;
 		case 2: //Buy Stock
 			stateGame=VIEW_STOCK;
 			{
+			system("cls");
+			shopMenu();
+			stateGame=MAIN_MENU;
 			}
 			break;
 		case 3: //Make Lemonade
 			stateGame=MAKE_LEMONADE;
 			{
+			system("cls");
+			displayRecipe();
+			makeLemonade();
 			}
 			break;
 		case 4: //Change recipe
 			stateGame=CHANGE_RECIPE;
 			{
+			system("cls");
+			changeRecipe();
 			}
 			break;
 		case 5: // Start The Day Cycle
 			stateGame=DAY_CYCLE;
 			{
-
+			system("cls");
+			dayTimer();
 			}
 			break;
 		case 6: //Exit to Main Menu
+			stateGame=EXIT_GAME;
 			{
 			system("cls");
 			cout << "Now returning to Main Menu" <<endl;
@@ -105,9 +143,85 @@ int playGame()
 
 }
 
+
 int main(int argc, const char*argv[])
 {
 
-	displayMainMenu();
+	int iMenuChoice;
+
+	//place menu here and get users choice
+	system("cls");
+	cout << "------" <<endl;
+	cout << "Main Menu" <<endl;
+	cout << "------" <<endl;
+	cout << "1.	Play Game" <<endl;
+	cout << "2.	View Instructions" <<endl;
+	cout << "3.	View Credits" <<endl;
+	cout << "4.	Exit Program" <<endl;
+	cout << "Please enter your choice: ";
+	cin >> iMenuChoice;
+
+	//Opening Main Menu
+	while( iMenuChoice >0 ) //this will make the program loop
+	{
+		switch(iMenuChoice)
+		{
+		case 1: //Play Game 
+			{
+				playGame();
+			}
+			break;
+		case 2: //Instructions
+			{
+				system("cls");
+				displayInstructions();
+				cout<<endl;
+			}
+			break;
+		case 3: //credits
+			{
+			const int DEV_YEAR = 2016;
+			int iGameVersion = 2;
+			//about the game
+			system("cls");
+			cout << "------" <<endl;
+			cout << "The Lemonade Stand Game" <<endl;
+			cout << "------" <<endl;
+			cout << "Game Version: " << iGameVersion <<endl;
+			cout << "Company: Twoitle Games" <<endl;
+			cout << "Created in " << DEV_YEAR << " by Audrey Kay, an avid Lemongrab enthusiast." <<endl;
+			cout<<endl;
+			}
+			break;
+		case 4: //exit game
+			{
+			system("cls");
+			cout << "Player has exited the game" <<endl;
+			system("pause");
+			return 0; //exits the program
+			}
+			break;
+		default: //invalid choice
+			{
+			cout << "Please choose a valid number! "<<endl;
+			system("pause");
+			system("cls");
+			}
+			break;
+		}
+
+	//place menu here and get users choice
+	cout << "------" <<endl;
+	cout << "Main Menu" <<endl;
+	cout << "------" <<endl;
+	cout << "1.	Play Game" <<endl;
+	cout << "2.	View Instructions" <<endl;
+	cout << "3.	View Credits" <<endl;
+	cout << "4.	Exit Program" <<endl;
+	cout << "Please enter your choice: ";
+	cin >> iMenuChoice;
+	}
+
+
 	
 }

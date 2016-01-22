@@ -1,6 +1,5 @@
 //include matching header
 #include "Defines.h"
-#include "OpeningMenu.h"
 #include "MainGameLoop.h"
 #include "Customer.h"
 #include "DayCycle.h"
@@ -22,8 +21,8 @@ void saleScreen()
 	fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
 	iLemonadeSold = iLemonadeSold + iCups;
 	cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
-	system("pause");*/
-	//updateCustomerTimer();
+	system("pause");
+	updateCustomerTimer();*/
 }
 
 void customerFrugality()
@@ -35,6 +34,7 @@ void customerFrugality()
 	if (iFrugality <= 5) //customer will buy anything
 	{
 		//saleScreen();
+
 	}
 	else if (iFrugality == 6 || 7) //customer will buy under $2
 	{
@@ -71,48 +71,52 @@ void updateCustomerTimer()
 		switch(iTaste)
 		{
 		case 0: //customer pref sour
-			//check lemonade is sour
-			if (iLemonadeTaste == 0) //lemonade is sour!
-			{
-				customerFrugality();
-			}
-			else //lemonade is not to taste!
-			{
-				cout<<"The customer hated your recipe and bought nothing!"<<endl;
-			}
+				//check lemonade is sour
+				if (iLemonadeTaste == 0) //lemonade is sour!
+				{
+					customerFrugality();
+				}
+				else //lemonade is not to taste!
+				{
+					cout<<"The customer hated your recipe and bought nothing!"<<endl;
+				}
 		
 		case 1: //customer pref sour or standard
-			//check lemonade is sour or standard
-			if (iLemonadeTaste == 0 || 1) //lemonade is sour or stand!
-			{
-				customerFrugality();
-			}
-			else //lemonade is not to taste!
-			{
-				cout<<"The customer hated your recipe and bought nothing!"<<endl;
-			}
+				//check lemonade is sour or standard
+				if (iLemonadeTaste == 0 || 1) //lemonade is sour or stand!
+				{
+					customerFrugality();
+				}
+				else //lemonade is not to taste!
+				{
+					cout<<"The customer hated your recipe and bought nothing!"<<endl;
+				}
 
 			case 2: //customer pref sour or standard
-			//check lemonade is stand or sweet
-			if (iLemonadeTaste == 1 || 2) //lemonade is standard or sweet!
-			{
-				customerFrugality();
-			}
-			else //lemonade is not to taste!
-			{
-				cout<<"The customer hated your recipe and bought nothing!"<<endl;
-			}
+				//check lemonade is stand or sweet
+				if (iLemonadeTaste == 1 || 2) //lemonade is standard or sweet!
+				{
+					customerFrugality();
+				}
+				else //lemonade is not to taste!
+				{
+					cout<<"The customer hated your recipe and bought nothing!"<<endl;
+				}
 
 			case 3: //customer pref sweet
-			//check lemonade is sweet
-			if (iLemonadeTaste == 3) //lemonade is sweet!
-			{
-				customerFrugality();
-			}
-			else //lemonade is not to taste!
-			{
-				cout<<"The customer hated your recipe and bought nothing!"<<endl;
-			}
+				//check lemonade is sweet
+				if (iLemonadeTaste == 3) //lemonade is sweet!
+				{
+					customerFrugality();
+				}
+				else //lemonade is not to taste!
+				{
+					cout<<"The customer hated your recipe and bought nothing!"<<endl;
+				}
+			default:
+				{
+					cout<<"Something went horribly wrong!"<<endl;
+				}
 		}
 		
 	}
@@ -142,45 +146,4 @@ void updateCustomerTimer()
 
 	}
 
-}
-
-void randomEvent()
-{
-	int iRandomEvent = rand()%4;
-	int iRandomSugar = rand()%(3)+1;
-	int iRandomIce = rand()%(2)+1;
-	int iRandomLemon = rand()%(4)+1;
-	int iRandomLemonade = rand()%(5)+1;
-
-	switch (iRandomEvent)
-	{
-	case 0:
-		{
-		cout<<"Rats spoiled "<<iRandomSugar<<" bag(s) of sugar!"<<endl;
-		fSugarLoss += iRandomSugar;
-		fStockSugar -= iRandomSugar;
-		}
-		break;
-	case 1:
-		{
-		cout<<iRandomIce<<" bag(s) of ice melted!"<<endl;
-		fIceLoss += iRandomIce;
-		fStockIce -= iRandomIce;
-		}
-		break;
-	case 2:
-		{
-		cout<<iRandomLemon<<" lemon(s) went bad!"<<endl;
-		fIceLoss += iRandomIce;
-		fStockIce -= iRandomIce;
-		}
-		break;
-	case 3:
-		{
-		cout<<"Kids threw a ball at your stand and knocked over "<<iRandomLemonade<< " cups of Lemonade!" <<endl;
-		fStockLemonade -= iRandomLemonade;
-		}
-		break;
-	}
-	
 }

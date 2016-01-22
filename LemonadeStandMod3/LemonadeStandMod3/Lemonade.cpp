@@ -1,6 +1,5 @@
 //include matching header
 #include "Defines.h"
-#include "OpeningMenu.h"
 #include "MainGameLoop.h"
 #include "Customer.h"
 #include "DayCycle.h"
@@ -11,6 +10,12 @@
 #include <iomanip>
 #include <fstream>
 using namespace std;
+
+//random pricing float
+float randomPrice(float max, float min)
+{
+	return max + (rand() / (RAND_MAX / (min-max) ) );
+}
 
 //recipe structure
 struct RecipeStruct
@@ -27,6 +32,7 @@ extern int iLemonadeTaste;
 int sourTaste = 0;
 int standardTaste = 1;
 int sweetTaste = 2;
+
 
 void displayStock()
 {
@@ -48,12 +54,22 @@ void displayFinances()
 	cout <<"Total profit: $"<< fProfit <<endl;
 }
 
-float randomPrice(float max, float min)
+
+
+//display Recipe&Price function
+void displayRecipe()
 {
-	return max + (rand() / (RAND_MAX / (min-max) ) );
+	cout<< "------"<<endl;
+	cout<< "Recipe: ONE JUG LEMONADE"<<endl;
+	cout<< "------"<<endl;
+
+	cout<< sLemonadeRecipe.fLemonRecipe << " Lemons" <<endl;
+	cout<< sLemonadeRecipe.fSugarRecipe << " Cups of Sugar" <<endl;
+	cout<< sLemonadeRecipe.fIceRecipe << " Cups of Ice" <<endl;
+	cout<< "$ "<<sLemonadeRecipe.fLemonadePrice<<" Per Cup"<<endl;
 }
 
-void displayBuyStock()
+void shopMenu()
 {
 	int iStockChoice;
 	int iStockNumber;
@@ -63,7 +79,10 @@ void displayBuyStock()
 	float COST_SUGAR = randomPrice(MAX_COST_SUGAR,MIN_COST_SUGAR);
 	float COST_ICE = randomPrice(MAX_COST_ICE,MIN_COST_ICE);
 
-	
+	displayRecipe();
+	cout<<endl;
+	displayStock();
+	cout<<endl;
 	cout<< "------"<<endl;
 	cout<< "Buy Stock"<<endl;
 	cout<< "------"<<endl;
@@ -73,6 +92,9 @@ void displayBuyStock()
 	cout<< "2.	Bag of Sugar (8 cups) $"<<COST_SUGAR<<endl;
 	cout<< "3.	Bag of Ice (20 cups) $"<<COST_ICE<<endl;
 	cout<< "4.	Return to Game Menu"<<endl;
+	cout<<endl;
+	cout<< "Cash on Hand: $"<< fMoneyOnHand <<endl;
+	
 
 	//prompt player for stock option
 	cout<< "Please enter a number: ";
@@ -91,17 +113,17 @@ void displayBuyStock()
 		if(fMoneyOnHand < iStockNumber*COST_LEMON)
 		{
 			cout<<"Insufficient Funds!"<<endl;
-		//	shopMenu();
+			shopMenu();
 		}
 		else //enough money to buy lemon(s)
 		{
 		fStockLemon = fStockLemon+(iStockNumber);	
 		fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_LEMON);
 		fMoneySpent = fMoneySpent+(iStockNumber*COST_LEMON);
-		cout<< "You purchased "<<iStockNumber<<" Lemon(s)"<<endl;
+		cout<< "You purchased "<<iStockNumber<<" Lemon(s) for $"<<(COST_LEMON*iStockNumber)<<endl;
 		cout<< "Lemon(s) in stock: "<<fStockLemon<<endl;
 		cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
-		//shopMenu();
+		shopMenu();
 		}
 		}
 		break;
@@ -114,7 +136,7 @@ void displayBuyStock()
 		if(fMoneyOnHand < iStockNumber*COST_SUGAR)
 		{
 			cout<<"Insufficient Funds!"<<endl;
-			//shopMenu();
+			shopMenu();
 		}
 		else //enough money to buy sugar
 		{
@@ -124,7 +146,7 @@ void displayBuyStock()
 		cout<< "You purchased "<<iStockNumber<<" Bag(s) of Sugar"<<endl;
 		cout<< "Cup(s) of Sugar in stock: "<<fStockSugar<<endl;
 		cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
-		//shopMenu();
+		shopMenu();
 		}
 		}
 		break;
@@ -137,7 +159,7 @@ void displayBuyStock()
 		if(fMoneyOnHand < iStockNumber*COST_ICE)
 		{
 			cout<<"Insufficient Funds!"<<endl;
-			//shopMenu();
+			shopMenu();
 		}
 		else //enough money to buy ice
 		{
@@ -147,7 +169,7 @@ void displayBuyStock()
 		cout<< "You purchased "<<iStockNumber<<" Bag(s) of Ice"<<endl;
 		cout<< "Cup(s) of Ice in stock: "<<fStockIce<<endl;
 		cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
-		//shopMenu();
+		shopMenu();
 		}
 		}
 		break;
@@ -160,32 +182,103 @@ void displayBuyStock()
 	default: //invalid number
 		system("cls");
 		cout<<"*~*Please enter a valid number*~*"<<endl;
-		//shopMenu();
+		shopMenu();
 		//cin >>iStockChoice;
 		break;
 		}
 }
 
-void displayStockPrices()
+
+/*void displayBuyStock()
 {
-}
+	//Random Stock Prices
+	float COST_LEMON = randomPrice(MAX_COST_LEMON,MIN_COST_LEMON);
+	float COST_SUGAR = randomPrice(MAX_COST_SUGAR,MIN_COST_SUGAR);
+	float COST_ICE = randomPrice(MAX_COST_ICE,MIN_COST_ICE);
+	
+	displayRecipe();
+	cout<<endl;
+	displayStock();
+	cout<<endl;
+	cout<< "------"<<endl;
+	cout<< "Stock Prices"<<endl;
+	cout<< "------"<<endl;
+	cout<<fixed;
+	cout<<setprecision(2);
+	cout<< "Lemons: $"<<COST_LEMON<< " each"<<endl;
+	cout<< "Sugar: $"<<COST_SUGAR<< " per bag (8 cups)"<<endl;
+	cout<< "Ice: $"<<COST_ICE<< " per bag (20 cups)"<<endl;
+	cout<<endl;
+	cout<< "Cash on Hand: $"<< fMoneyOnHand <<endl;
+	cout<<endl;
+	shopMenu();
+}*/
 
 void makeLemonade()
 {
+	int iLemonadeJug;
+	int iLemonadeChoice;
+
+	//making lemonade loop
+	bool bMakeLemonade = true;
+
+	float RECIPE_LEMON = sLemonadeRecipe.fLemonRecipe;
+	float RECIPE_SUGAR = sLemonadeRecipe.fSugarRecipe;
+	float RECIPE_ICE = sLemonadeRecipe.fIceRecipe;
+
+	//while(bMakeLemonade = true)
+	//{
+	displayStock();
+	cout<<endl;
+	cout<<"1.	Make Lemonade"<<endl;
+	cout<<"2.	Exit to Menu"<<endl;
+	cout<<"Please enter a number: ";
+	cin>>iLemonadeChoice;
+
+	switch (iLemonadeChoice)
+	{	
+	case 1:
+		{
+		cout<<"How many jugs of lemonade would you like to make? ";
+		cin>>iLemonadeJug;
+		cout<<endl;
+		//check there is enough stock to make lemonade
+		if ((fStockLemon >= iLemonadeJug*RECIPE_LEMON)
+			&& (fStockSugar >= iLemonadeJug*RECIPE_SUGAR)
+			&& (fStockIce >= iLemonadeJug*RECIPE_ICE))
+		{
+			system("cls");
+			cout<<"You made "<<iLemonadeJug<<" jug(s) of Lemonade!"<<endl;
+			fStockLemon = fStockLemon-(iLemonadeJug*RECIPE_LEMON);
+			fStockSugar = fStockSugar-(iLemonadeJug*RECIPE_SUGAR);
+			fStockIce = fStockIce-(iLemonadeJug*RECIPE_ICE);
+			fStockLemonade = fStockLemonade+(iLemonadeJug*6);
+			makeLemonade();
+		}
+		else //not enough stock
+		{
+			system("cls");
+			cout<<"*~*Insufficient Ingredients!*~*"<<endl;
+			makeLemonade();
+		}
+		}
+		break;
+	case 2:
+		bMakeLemonade = false;
+		switch(GAMESTATE::MAIN_MENU)
+		{
+			//case MAIN_MENU;
+		}
+		break;
+	default:
+		{
+			cout<<"*~*Please enter a valid number*~*"<<endl;
+			makeLemonade();
+		}
+		break;
+	}
 }
 
-//display Recipe&Price function
-void displayRecipe()
-{
-	cout<< "------"<<endl;
-	cout<< "Recipe: ONE JUG LEMONADE"<<endl;
-	cout<< "------"<<endl;
-	cout<< sLemonadeRecipe.fLemonRecipe << " Lemons" <<endl;
-	cout<< sLemonadeRecipe.fSugarRecipe << " Cups of Sugar" <<endl;
-	cout<< sLemonadeRecipe.fIceRecipe << " Cups of Ice" <<endl;
-	cout<< "$ "<<sLemonadeRecipe.fLemonadePrice<<" Per Cup"<<endl;
-	cout<< endl;
-}
 
 //change recipe/price screen
 void changeRecipe()
@@ -267,8 +360,9 @@ void changeRecipe()
 		}
 		break;
 	case 2:
+		switch(GAMESTATE::MAIN_MENU)
 		{
-			//TODO return to menu 
+			//case MAIN_MENU;
 		}
 		break;
 	default:
