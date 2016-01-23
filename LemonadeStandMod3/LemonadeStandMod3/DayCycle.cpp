@@ -240,7 +240,7 @@ int dayTimer()
 	lastTime = lastTime + newTime;
 
 	//if dayTime greater than 10secs, exit
-	if(++secondsPassed==10)
+	if(secondsPassed==10)
 	{
 		return 0;
 	}
