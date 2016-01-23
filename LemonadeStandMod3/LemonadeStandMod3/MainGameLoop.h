@@ -16,3 +16,4 @@ extern void makeLemonade();
 extern void changeRecipe();
 extern void shopMenu();
 extern int dayTimer();
+extern unsigned int diffTime, newTime;

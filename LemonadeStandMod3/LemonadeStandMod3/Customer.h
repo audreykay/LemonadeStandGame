@@ -11,3 +11,6 @@ extern int iLemonadeTaste;
 extern float fSugarLoss;
 extern float fIceLoss;
 extern float fLemonLoss;
+extern float fLemonadeLoss;
+
+extern int mystrlen(char *s);

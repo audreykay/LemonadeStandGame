@@ -28,4 +28,11 @@ extern float fLemonadeProfit;
 extern float fMoneySpent;
 extern float fLemonadePrice;
 
-extern struct RecipeStruct sLemonadeRecipe;
+//recipe structure
+struct RecipeStruct
+{
+	float fLemonRecipe;
+	float fSugarRecipe;
+	float fIceRecipe;
+	float fLemonadePrice;
+};

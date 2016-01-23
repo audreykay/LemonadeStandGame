@@ -16,8 +16,14 @@ using namespace std;
 //access GAMESTATE
 extern enum GAMESTATE;
 
+extern struct RecipeStruct sLemonadeRecipe;
+
 //game loop
 bool bGameOver = false;
+//set startup
+bool bStartUp = false;
+//set rand recipe
+bool bRecipeSet=false;
 
 //access the instruction text file
 void displayInstructions()
@@ -40,7 +46,6 @@ void displayInstructions()
 }
 
 
-
 int playGame()
 {
 	//access enum
@@ -48,6 +53,27 @@ int playGame()
 
 	//player menu choice
 	int iChoice;
+
+	//MYSTERIOUS BENEFACTOR
+		if(bStartUp==false)
+	{
+		fMoneyOnHand +=(rand()%(100-25))+25;
+		fStockLemon +=(rand()%(25-10))+10;
+		fStockSugar +=(rand()%(25-10))+10;
+		fStockIce +=(rand()%(25-10))+10;
+		bStartUp=true;
+	}
+		
+	//RANDOM RECIPE
+	if(bRecipeSet==false)
+	{
+		sLemonadeRecipe.fLemonRecipe +=(rand()%(3-1))+1;
+		sLemonadeRecipe.fSugarRecipe +=(rand()%(3-1))+1;
+		sLemonadeRecipe.fIceRecipe +=(rand()%(3-1))+1;
+		sLemonadeRecipe.fLemonadePrice +=(rand()%(3-1))+1;
+		bRecipeSet=true;
+	}
+
 
 	//MAIN GAME MENU
 	system("cls");
@@ -74,8 +100,7 @@ int playGame()
 			system("cls");
 			displayStock();
 			displayFinances();
-			//system("pause");
-			stateGame=MAIN_MENU;
+			system("pause");
 			}
 			break;
 		case 2: //Buy Stock
@@ -104,6 +129,7 @@ int playGame()
 		case 5: // Start The Day Cycle
 			stateGame=DAY_CYCLE;
 			{
+			//diffTime=newTime;
 			system("cls");
 			dayTimer();
 			}

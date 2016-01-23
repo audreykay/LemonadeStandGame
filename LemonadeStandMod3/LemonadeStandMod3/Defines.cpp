@@ -25,7 +25,7 @@ int iLemonadeSold = 0;
 //money business
 float fLemonadeProfit = 0;
 float fMoneySpent = 0;
-float fMoneyOnHand = 50;
+float fMoneyOnHand = 0;
 
 //lemonade taste
 int iLemonadeTaste;
@@ -34,3 +34,4 @@ int iLemonadeTaste;
 float fSugarLoss;
 float fIceLoss;
 float fLemonLoss;
+float fLemonadeLoss;

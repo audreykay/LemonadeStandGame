@@ -183,7 +183,7 @@ int main(int argc, const char*argv[])
 		case 3: //credits
 			{
 			const int DEV_YEAR = 2016;
-			int iGameVersion = 2;
+			int iGameVersion = 3;
 			//about the game
 			system("cls");
 			cout << "------" <<endl;

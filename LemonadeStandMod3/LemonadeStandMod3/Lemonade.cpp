@@ -11,20 +11,13 @@
 #include <fstream>
 using namespace std;
 
+
 //random pricing float
 float randomPrice(float max, float min)
 {
 	return max + (rand() / (RAND_MAX / (min-max) ) );
 }
 
-//recipe structure
-struct RecipeStruct
-{
-	float fLemonRecipe;
-	float fSugarRecipe;
-	float fIceRecipe;
-	float fLemonadePrice;
-};
 
 //variables
 RecipeStruct sLemonadeRecipe;
@@ -283,7 +276,9 @@ void makeLemonade()
 //change recipe/price screen
 void changeRecipe()
 {
-		if (sLemonadeRecipe.fLemonRecipe > sLemonadeRecipe.fSugarRecipe)
+
+
+	if (sLemonadeRecipe.fLemonRecipe > sLemonadeRecipe.fSugarRecipe)
 	{
 		iLemonadeTaste = sourTaste;
 	}
