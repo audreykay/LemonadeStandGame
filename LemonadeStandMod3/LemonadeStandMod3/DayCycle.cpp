@@ -96,12 +96,12 @@ char msgLemonade[] = " LEMONADE GOT KNOCKED OVER! ";
 
 unsigned int diffTime = 0, lastTime = 0, newTime = 0;
 
-bool bNewDay=false;
 
 
 int dayTimer()
 {
-	
+	bool bNewDay=true;
+
 	static int timeAtStartOfLastUpdate = GetTickCount();
 
 	//lem msg
@@ -129,7 +129,7 @@ int dayTimer()
 	//system("cls");
 	
 	//
-	while (true)
+	while (bNewDay==true)
 	{
 		//call random event
 		randomEvent();
@@ -228,7 +228,6 @@ int dayTimer()
 	diffTime = newTime + lastTime;
 	//diff time is seconds counting up
 	cout<<"Time after 100ms Sleep = "<<newTime<<", Difference = "<<diffTime<<endl;
-
 	//time left is set 10 second count down/up (millisecond)
 	unsigned secondsPassed = (diffTime)/1000; //seconds counting up
 	
@@ -241,7 +240,7 @@ int dayTimer()
 	lastTime = lastTime + newTime;
 
 	//if dayTime greater than 10secs, exit
-	if(secondsPassed == 10)
+	if(++secondsPassed==10)
 	{
 		return 0;
 	}
