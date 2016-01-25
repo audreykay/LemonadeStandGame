@@ -103,6 +103,12 @@ void shopMenu()
 		cin>> iStockNumber;
 		cout<<endl;
 		system("cls");
+		//NO NEGS
+		if(iStockNumber < 0)
+		{
+			cout<<"Please enter a valid number: ";
+			cin>> iStockNumber;
+		}
 		if(fMoneyOnHand < iStockNumber*COST_LEMON)
 		{
 			cout<<"Insufficient Funds!"<<endl;
@@ -110,6 +116,7 @@ void shopMenu()
 		}
 		else //enough money to buy lemon(s)
 		{
+
 		fStockLemon = fStockLemon+(iStockNumber);	
 		fMoneyOnHand = fMoneyOnHand-(iStockNumber*COST_LEMON);
 		fMoneySpent = fMoneySpent+(iStockNumber*COST_LEMON);
@@ -126,6 +133,12 @@ void shopMenu()
 		cin>> iStockNumber;
 		cout<<endl;
 		system("cls");
+		//NO NEGS
+		if(iStockNumber < 0)
+		{
+			cout<<"Please enter a valid number: ";
+			cin>> iStockNumber;
+		}
 		if(fMoneyOnHand < iStockNumber*COST_SUGAR)
 		{
 			cout<<"Insufficient Funds!"<<endl;
@@ -149,6 +162,12 @@ void shopMenu()
 		cin>> iStockNumber;
 		cout<<endl;
 		system("cls");
+		//NO NEGS
+		if(iStockNumber < 0)
+		{
+			cout<<"Please enter a valid number: ";
+			cin>> iStockNumber;
+		}
 		if(fMoneyOnHand < iStockNumber*COST_ICE)
 		{
 			cout<<"Insufficient Funds!"<<endl;
@@ -174,7 +193,7 @@ void shopMenu()
 		break;
 	default: //invalid number
 		system("cls");
-		cout<<"*~*Please enter a valid number*~*"<<endl;
+		cout<<"Please enter a valid number!"<<endl;
 		shopMenu();
 		//cin >>iStockChoice;
 		break;
@@ -235,6 +254,10 @@ void makeLemonade()
 		cout<<"How many jugs of lemonade would you like to make? ";
 		cin>>iLemonadeJug;
 		cout<<endl;
+		if(iLemonadeJug<0)
+		{
+			cout<<"Please use a positive number!"<<endl;
+		}
 		//check there is enough stock to make lemonade
 		if ((fStockLemon >= iLemonadeJug*RECIPE_LEMON)
 			&& (fStockSugar >= iLemonadeJug*RECIPE_SUGAR)
@@ -276,8 +299,6 @@ void makeLemonade()
 //change recipe/price screen
 void changeRecipe()
 {
-
-
 	if (sLemonadeRecipe.fLemonRecipe > sLemonadeRecipe.fSugarRecipe)
 	{
 		iLemonadeTaste = sourTaste;
@@ -309,9 +330,9 @@ void changeRecipe()
 			cin>>sLemonadeRecipe.fLemonRecipe;
 			cout<<endl;
 			//no cheating Jason!
-			if (sLemonadeRecipe.fLemonRecipe <= 0)
+			if (sLemonadeRecipe.fLemonRecipe < 1)
 			{
-				cout<<"Please use a positive number!"<<endl;
+				cout<<"Please use at least 1 part lemon!"<<endl;
 				cout<<endl;
 				cout<<"Change lemons per jug to: ";
 				cin>> sLemonadeRecipe.fLemonRecipe;
@@ -320,9 +341,9 @@ void changeRecipe()
 			cout<<"Change bags of sugar per jug to: ";
 			cin>>sLemonadeRecipe.fSugarRecipe;
 			cout<<endl;
-			if (sLemonadeRecipe.fSugarRecipe <= 0)
+			if (sLemonadeRecipe.fSugarRecipe < 1)
 			{
-				cout<<"Please use a positive number!"<<endl;
+				cout<<"Please use at least 1 cup of sugar!"<<endl;
 				cout<<endl;
 				cout<<"Change bags of sugar per jug to: ";
 				cin>> sLemonadeRecipe.fLemonRecipe;
@@ -331,9 +352,9 @@ void changeRecipe()
 			cout<<"Change bags of ice per jug to: ";
 			cin>>sLemonadeRecipe.fIceRecipe;
 			cout<<endl;
-			if (sLemonadeRecipe.fIceRecipe <= 0)
+			if (sLemonadeRecipe.fIceRecipe < 1)
 			{
-				cout<<"Please use a positive number!"<<endl;
+				cout<<"Please use at least 1 cup of ice!"<<endl;
 				cout<<endl;
 				cout<<"Change bags of ice per jug to: ";
 				cin>> sLemonadeRecipe.fLemonRecipe;
@@ -342,9 +363,9 @@ void changeRecipe()
 			cout<<"Change price of Lemonade per cup to: $";
 			cin>>sLemonadeRecipe.fLemonadePrice;
 			cout<<endl;
-			if (sLemonadeRecipe.fLemonadePrice <= 0)
+			if (sLemonadeRecipe.fLemonadePrice < 1)
 			{
-				cout<<"Please use a positive number!"<<endl;
+				cout<<"Please charge at least $1!"<<endl;
 				cout<<endl;
 				cout<<"Change price of Lemonade per cup to: $";
 				cin>> sLemonadeRecipe.fLemonadePrice;

@@ -63,8 +63,11 @@ void randomEvent()
 			eventSugar = true;
 			int iRandomSugar = rand()%(3)+1;
 			//cout<<"Rats spoiled "<<iRandomSugar<<" bag(s) of sugar!"<<endl;
+			if(fStockSugar >= iRandomSugar)
+			{
 			fSugarLoss += iRandomSugar;
 			fStockSugar -= iRandomSugar;
+			}
 		}
 		break;
 	case 1:
@@ -72,8 +75,11 @@ void randomEvent()
 			eventIce = true;
 			int iRandomIce = rand()%(2)+1;
 			//cout<<iRandomIce<<" bag(s) of ice melted!"<<endl;
+			if(fStockIce >= iRandomIce)
+			{
 			fIceLoss += iRandomIce;
 			fStockIce -= iRandomIce;
+			}
 		}
 		break;
 	case 2:
@@ -81,8 +87,11 @@ void randomEvent()
 			eventLemon = true;
 			int iRandomLemon = rand()%(4)+1;
 			//cout<<iRandomLemon<<" lemon(s) went bad!"<<endl;
+			if(fStockLemon >= iRandomLemon)
+			{
 			fLemonLoss += iRandomLemon;
 			fStockIce -= iRandomLemon;
+			}
 		}
 		break;
 	case 3:
@@ -90,8 +99,11 @@ void randomEvent()
 			eventLemonade = true;
 			int iRandomLemonade = rand()%(5)+1;
 			//cout<< "Kids threw a ball at your stand and knocked over "<< iRandomLemonade<< " cups of Lemonade!";
+			if (fStockLemonade >= iRandomLemonade)
+			{
 			fLemonadeLoss += iRandomLemonade;
 			fStockLemonade -= iRandomLemonade;
+			}
 		}
 		break;
 	}
@@ -266,6 +278,7 @@ int dayTimer()
 		lastTime = 0;
 		iDaysPassed += 1;
 		return 0;
+		fStockLemonade=0;
 	}
 
 }
