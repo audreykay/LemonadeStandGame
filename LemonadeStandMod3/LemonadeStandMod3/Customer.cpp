@@ -500,10 +500,12 @@ void updateCustomerTimer()
 			if ((istartNoStock + i) >= lenNoStock)
 			{
 				fputc(msgCustomerNoStock[(istartSat + i) - lenNoStock], stdout);
+				
 			}
 			else
 			{
 				fputc(msgCustomerNoStock[istartNoStock + i], stdout);
+				
 			}
 		}
 	}

@@ -139,8 +139,8 @@ int dayTimer()
 	while (true)
 	{
 		//call random event
-		//randomEvent();
-		
+		randomEvent();
+		updateCustomerTimer();
 		//find difference in time
 		int timeNow = GetTickCount();
 		int dt = timeNow - timeAtStartOfLastUpdate;
@@ -246,7 +246,7 @@ int dayTimer()
 	cout<<"time left in day: " <<timeLeft<<" second(s)"<<endl;
 	cout<<endl;
 	cout<<"Lemonade sold: "<<iLemonadeSold<<" cups"<<endl;
-	if(fStockLemonade==0)
+	if(fStockLemonade>=0)
 	{
 		cout<<"YOU HAVE RUN OUT OF LEMONADE"<<endl;
 	}
@@ -257,8 +257,7 @@ int dayTimer()
 	cout<<"Lemonade stolen by hoodlums: "<<fLemonadeLoss<<" cups"<<endl;
 	cout<<"Cash on hand: " <<fMoneyOnHand<<endl;
 	
-	updateCustomerTimer();
-		randomEvent();
+	
 	//if dayTime greater than 10secs, exit
 	if(secondsPassed==DAY_LENGTH)
 	{
