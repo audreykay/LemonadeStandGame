@@ -14,11 +14,20 @@
 #include <conio.h>
 using namespace std;
 
+//dayPassed VAR
+int iDaysPassed;
+const int DAY_LENGTH = 10;
+
 //RE triggers
 bool eventLemon = false;
 bool eventSugar = false;
 bool eventIce = false;
 bool eventLemonade = false;
+
+//access RECIPESTRUCT
+extern struct RecipeStruct sLemonadeRecipe;
+
+
 
 //start timer
 unsigned long startTime_;
@@ -125,15 +134,13 @@ int dayTimer()
 	/*int lenCustomer = mystrlen(msgCustomer);
 	int startCustomer = lenCustomer - 40;
 	int istartCustomer = startCustomer;*/
-
-	//system("cls");
 	
-	//
-	while (bNewDay==true)
+	
+	while (true)
 	{
 		//call random event
-		randomEvent();
-		updateCustomerTimer();
+		//randomEvent();
+		
 		//find difference in time
 		int timeNow = GetTickCount();
 		int dt = timeNow - timeAtStartOfLastUpdate;
@@ -224,24 +231,41 @@ int dayTimer()
 
 	//TIMER
 	newTime = calculateElapsedTime();
-
+	//diff time in seconds counting up
 	diffTime = newTime + lastTime;
-	//diff time is seconds counting up
-	cout<<"Time after 100ms Sleep = "<<newTime<<", Difference = "<<diffTime<<endl;
-	//time left is set 10 second count down/up (millisecond)
+	//cout<<"Time after 100ms Sleep = "<<newTime<<", Difference = "<<diffTime<<endl;
+	//time left is set to CONST DAY_LENGTH (seconds)
 	unsigned secondsPassed = (diffTime)/1000; //seconds counting up
+	int timeLeft = (DAY_LENGTH) - secondsPassed;
 	
-	cout<<"time elapsed: " <<secondsPassed<<" second(s)"<<endl;
-	cout<<"Lemons spoiled: " <<fLemonLoss<<endl;
-	cout<<"Sugar spoiled: " <<fSugarLoss<<endl;
-	cout<<"Ice melted: " <<fIceLoss<<endl;
-	cout<<"Lemonade wasted: "<<fLemonadeLoss<<endl;
-	cout<<"Cash on hand: " <<fMoneyOnHand<<endl;
 	lastTime = lastTime + newTime;
 
-	//if dayTime greater than 10secs, exit
-	if(secondsPassed==10)
+
+
+	//display day events to player
+	cout<<"time left in day: " <<timeLeft<<" second(s)"<<endl;
+	cout<<endl;
+	cout<<"Lemonade sold: "<<iLemonadeSold<<" cups"<<endl;
+	if(fStockLemonade==0)
 	{
+		cout<<"YOU HAVE RUN OUT OF LEMONADE"<<endl;
+	}
+	cout<<"Customers served: "<<iCustomerCount<<endl;
+	cout<<"Lemons spoiled: " <<fLemonLoss<<endl;
+	cout<<"Sugar lost to rats: " <<fSugarLoss<<" cups"<<endl;
+	cout<<"Ice melted: " <<fIceLoss<<" cups"<<endl;
+	cout<<"Lemonade stolen by hoodlums: "<<fLemonadeLoss<<" cups"<<endl;
+	cout<<"Cash on hand: " <<fMoneyOnHand<<endl;
+	
+	updateCustomerTimer();
+		randomEvent();
+	//if dayTime greater than 10secs, exit
+	if(secondsPassed==DAY_LENGTH)
+	{
+		//TODO; display end of day report, clear var (lemonadestock)
+		
+		lastTime = 0;
+		iDaysPassed += 1;
 		return 0;
 	}
 

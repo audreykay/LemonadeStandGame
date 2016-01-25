@@ -5,5 +5,7 @@
 #include <iostream>
 using namespace std;
 
+extern float fMoneyOnHand;
+extern int iLemonadeSold;
+extern int iCustomerCount;
 extern void updateCustomerTimer();
-//extern char msgCustomer[80];

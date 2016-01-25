@@ -16,6 +16,10 @@ using namespace std;
 
 //missed cups
 int iMissedCups;
+int iCustomerCount;
+
+extern struct RecipeStruct sLemonadeRecipe;
+extern void startTime();
 
 void saleScreen()
 {
@@ -87,7 +91,7 @@ void updateCustomerTimer()
 	int i;
 	//random cup number gen
 	int iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;
-	int iTaste = rand()%4;
+
 	//satisfied msg
 	int lenSat = mystrlen(msgCustomerSatisfied);
 	int startSat = lenSat - 20;
@@ -115,6 +119,7 @@ void updateCustomerTimer()
 
 	if( fStockLemonade >= iCups ) //If player has sufficient stock
 	{
+		int iTaste = rand()%4;
 		switch(iTaste)
 		{
 		case 0: //customer pref sour
@@ -127,9 +132,10 @@ void updateCustomerTimer()
 					//check customers frugality
 					if (iFrugality <= 5) //customer will buy anything
 					{
+						iCustomerCount+=1;
 						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
 						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
@@ -137,11 +143,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 6 || 7) //customer will buy under $2
 					{
-						if (fLemonadePrice <= 2)
+						if (sLemonadeRecipe.fLemonadePrice <= 2)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -156,11 +163,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 8 || 9) //customer will buy under $1.5
 					{
-						if (fLemonadePrice <= 1.5)
+						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -180,6 +188,7 @@ void updateCustomerTimer()
 					//LEMONADE IS TOO SWEET FOR CUSTOMER
 					eCustomerTasteSweet=true;
 				}
+				break;
 		
 		case 1: //customer pref sour or standard
 				//check lemonade is sour or standard
@@ -191,9 +200,10 @@ void updateCustomerTimer()
 					//check customers frugality
 					if (iFrugality <= 5) //customer will buy anything
 					{
+						iCustomerCount+=1;
 						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
 						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
@@ -201,11 +211,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 6 || 7) //customer will buy under $2
 					{
-						if (fLemonadePrice <= 2)
+						if (sLemonadeRecipe.fLemonadePrice <= 2)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -220,11 +231,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 8 || 9) //customer will buy under $1.5
 					{
-						if (fLemonadePrice <= 1.5)
+						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -244,6 +256,7 @@ void updateCustomerTimer()
 					//LEMONADE IS TOO SWEET FOR CUSTOMER
 					eCustomerTasteSweet=true;
 				}
+				break;
 
 			case 2: //customer pref sour or standard
 				//check lemonade is stand or sweet
@@ -255,9 +268,10 @@ void updateCustomerTimer()
 					//check customers frugality
 					if (iFrugality <= 5) //customer will buy anything
 					{
+						iCustomerCount+=1;
 						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
 						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
@@ -265,11 +279,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 6 || 7) //customer will buy under $2
 					{
-						if (fLemonadePrice <= 2)
+						if (sLemonadeRecipe.fLemonadePrice <= 2)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -284,11 +299,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 8 || 9) //customer will buy under $1.5
 					{
-						if (fLemonadePrice <= 1.5)
+						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -308,6 +324,7 @@ void updateCustomerTimer()
 					//LEMONADE IS TOO SOUR FOR CUSTOMER
 					eCustomerTasteSour=true;
 				}
+				break;
 
 			case 3: //customer pref sweet
 				//check lemonade is sweet
@@ -319,9 +336,10 @@ void updateCustomerTimer()
 					//check customers frugality
 					if (iFrugality <= 5) //customer will buy anything
 					{
+						iCustomerCount+=1;
 						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
 						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
@@ -329,11 +347,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 6 || 7) //customer will buy under $2
 					{
-						if (fLemonadePrice <= 2)
+						if (sLemonadeRecipe.fLemonadePrice <= 2)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;\
 							//CUSTOMER SATISFIED MSG
@@ -348,11 +367,12 @@ void updateCustomerTimer()
 					}
 					else if (iFrugality == 8 || 9) //customer will buy under $1.5
 					{
-						if (fLemonadePrice <= 1.5)
+						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
 						{
+							iCustomerCount+=1;
 							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
 							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
@@ -372,14 +392,16 @@ void updateCustomerTimer()
 					//LEMONADE IS TOO SOUR FOR CUSTOMER
 					eCustomerTasteSour=true;
 				}
+				break;
 			default:
 				{
 					//cout<<"Something went horribly wrong!"<<endl;
 				}
+				break;
 		}
 		
 	}
-	else if( fStockLemonade >= 1 )//Player has insufficient stock 
+	else if( fStockLemonade > iCups && fStockLemonade < 0)//Player has insufficient stock for cust, but more than 0
 	{
 		//system("cls");
 		iMissedCups = (iCups - fStockLemonade);
@@ -388,8 +410,9 @@ void updateCustomerTimer()
 	//	cout<<"*!* You could have sold "<<iMissedCups<<" more cups of Lemonade, if you had stock *!*"<<endl;
 	//	cout<<"*!* You now have no Lemonade in stock and need to make more *!*"<<endl;
 		//check stock, add funds, decrease stock, etc
-		fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*fStockLemonade));
-		fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*fStockLemonade));
+		iCustomerCount+=1;
+		fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*fStockLemonade));
+		fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*fStockLemonade));
 		iLemonadeSold = iLemonadeSold + fStockLemonade;
 		fStockLemonade = fStockLemonade - fStockLemonade;
 		//system("pause");
@@ -406,6 +429,8 @@ void updateCustomerTimer()
 		eCustomerNoStock=true;
 	}
 
+	while(true)
+	{
 	//PRINT EVENT TO SCREEN
 	if(eCustomerSatisfied==true)
 	{
@@ -497,6 +522,7 @@ void updateCustomerTimer()
 			}
 		}
 	}
+	
 	//IF END OF SCREEN, WRAP
 	if (istartSat == 0) istartSat = lenSat;
 	if (istartCheap == 0) istartCheap = lenCheap;
@@ -504,5 +530,12 @@ void updateCustomerTimer()
 	if (istartSour == 0) istartSour = lenSour;
 	if (istartNoStock == 0) istartNoStock = lenNoStock;
 	if (istartLast == 0) istartLast = lenLast;
-
+	//clear input
+	fflush(stdout);
+	Sleep(100);
+	system("cls");
+	
+	
+	}
+	
 }

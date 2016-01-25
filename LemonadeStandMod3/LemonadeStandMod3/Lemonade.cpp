@@ -347,7 +347,7 @@ void changeRecipe()
 				cout<<"Please use a positive number!"<<endl;
 				cout<<endl;
 				cout<<"Change price of Lemonade per cup to: $";
-				cin>> sLemonadeRecipe.fLemonRecipe;
+				cin>> sLemonadeRecipe.fLemonadePrice;
 				cout<<endl;
 			}
 			system("cls");

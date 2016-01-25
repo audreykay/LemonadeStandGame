@@ -16,9 +16,6 @@ float fStockSugar = 0;
 float fStockIce = 0;
 float fStockLemonade = 0;
 
-//price of lemonade per cup
-float fLemonadePrice = 2.5;
-
 //cups of lemonade sold
 int iLemonadeSold = 0;
 
