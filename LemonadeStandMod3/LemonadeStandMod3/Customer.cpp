@@ -16,7 +16,19 @@ using namespace std;
 
 //missed cups
 int iMissedCups;
+int iUpdateCounter;
+//counters for Daily Report
 int iCustomerCount;
+int iCustomerCountCheap;
+int iCustomerCountSweet;
+int iCustomerCountSour;
+//eventbool
+bool eCustomerSatisfied = false;
+bool eCustomerCheap = false;
+bool eCustomerTasteSour = false;
+bool eCustomerTasteSweet = false;
+bool eCustomerNoStock = false;
+bool eCustomerLast = false;
 
 extern struct RecipeStruct sLemonadeRecipe;
 extern void startTime();
@@ -101,19 +113,12 @@ void customerFrugality()
 		}
 	}*/
 }
-//eventbool
-bool eCustomerSatisfied = false;
-bool eCustomerCheap = false;
-bool eCustomerTasteSour = false;
-bool eCustomerTasteSweet = false;
-bool eCustomerNoStock = false;
-bool eCustomerLast = false;
-
 
 
 void updateCustomerTimer()
 {	
 	int i;
+	iUpdateCounter+=1;
 	//random cup number gen
 	int iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;
 

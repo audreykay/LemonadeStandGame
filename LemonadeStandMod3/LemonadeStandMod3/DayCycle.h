@@ -8,7 +8,11 @@ using namespace std;
 extern float fMoneyOnHand;
 extern int iLemonadeSold;
 extern int iCustomerCount;
+extern int iCustomerCountCheap;
+extern int iCustomerCountSweet;
+extern int iCustomerCountSour;
 extern void updateCustomerTimer();
+extern int iUpdateCounter;
 
 extern void gotoxy( int column, int line );
 extern int wherex();
