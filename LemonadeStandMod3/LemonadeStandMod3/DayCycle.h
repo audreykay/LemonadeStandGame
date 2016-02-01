@@ -9,3 +9,7 @@ extern float fMoneyOnHand;
 extern int iLemonadeSold;
 extern int iCustomerCount;
 extern void updateCustomerTimer();
+
+extern void gotoxy( int column, int line );
+extern int wherex();
+extern int wherey();

@@ -17,6 +17,7 @@ using namespace std;
 //dayPassed VAR
 int iDaysPassed;
 const int DAY_LENGTH = 10;
+bool bDayCycle=false;
 
 //RE triggers
 bool eventLemon = false;
@@ -26,7 +27,6 @@ bool eventLemonade = false;
 
 //access RECIPESTRUCT
 extern struct RecipeStruct sLemonadeRecipe;
-
 
 
 //start timer
@@ -63,7 +63,7 @@ void randomEvent()
 			eventSugar = true;
 			int iRandomSugar = rand()%(3)+1;
 			//cout<<"Rats spoiled "<<iRandomSugar<<" bag(s) of sugar!"<<endl;
-			if(fStockSugar >= iRandomSugar)
+			if(fStockSugar >= 1 && fStockSugar >= iRandomSugar)
 			{
 			fSugarLoss += iRandomSugar;
 			fStockSugar -= iRandomSugar;
@@ -75,7 +75,7 @@ void randomEvent()
 			eventIce = true;
 			int iRandomIce = rand()%(2)+1;
 			//cout<<iRandomIce<<" bag(s) of ice melted!"<<endl;
-			if(fStockIce >= iRandomIce)
+			if(fStockIce >= 1 && fStockIce >= iRandomIce)
 			{
 			fIceLoss += iRandomIce;
 			fStockIce -= iRandomIce;
@@ -87,10 +87,10 @@ void randomEvent()
 			eventLemon = true;
 			int iRandomLemon = rand()%(4)+1;
 			//cout<<iRandomLemon<<" lemon(s) went bad!"<<endl;
-			if(fStockLemon >= iRandomLemon)
+			if(fStockLemon >= 1 && fStockLemon >= iRandomLemon)
 			{
 			fLemonLoss += iRandomLemon;
-			fStockIce -= iRandomLemon;
+			fStockLemon -= iRandomLemon;
 			}
 		}
 		break;
@@ -99,7 +99,7 @@ void randomEvent()
 			eventLemonade = true;
 			int iRandomLemonade = rand()%(5)+1;
 			//cout<< "Kids threw a ball at your stand and knocked over "<< iRandomLemonade<< " cups of Lemonade!";
-			if (fStockLemonade >= iRandomLemonade)
+			if (fStockLemonade >= 1 && fStockLemonade >= iRandomLemonade)
 			{
 			fLemonadeLoss += iRandomLemonade;
 			fStockLemonade -= iRandomLemonade;
@@ -109,11 +109,19 @@ void randomEvent()
 	}
 	
 }
-
+//RE MESSAGES
 char msgLemon[] = " LEMONS WENT BAD! ";
 char msgSugar[] = " SUGAR SPOILED! ";
 char msgIce[] = " ICE MELTED! ";
 char msgLemonade[] = " LEMONADE GOT KNOCKED OVER! ";
+
+//RE CUSTOMER MESSAGES
+char msgCustomerSatisfied[] = " ANOTHER SATISFIED CUSTOMER! ";
+char msgCustomerCheap[] =  " ''YOUR LEMONADE IS TOO EXPENSIVE'' ";
+char msgCustomerTasteSour[] = " ''YOUR LEMONADE IS TOO SOUR'' ";
+char msgCustomerTasteSweet[] = " ''YOUR LEMONADE IS TOO SWEET'' ";
+char msgCustomerNoStock[] = " YOU ARE OUT OF LEMONADE AND NEED TO MAKE MORE! ";
+char msgCustomerLast[] = " THE CUSTOMER BOUGHT ALL YOUR LEMONADE LEFT! ";
 
 unsigned int diffTime = 0, lastTime = 0, newTime = 0;
 
@@ -121,7 +129,7 @@ unsigned int diffTime = 0, lastTime = 0, newTime = 0;
 
 int dayTimer()
 {
-	bool bNewDay=true;
+	bool bDayCycle=true;
 
 	static int timeAtStartOfLastUpdate = GetTickCount();
 
@@ -143,16 +151,39 @@ int dayTimer()
 	int startLemonade = lenLemonade - 20;
 	int istartLemonade = startLemonade;
 	//customerRE
-	/*int lenCustomer = mystrlen(msgCustomer);
-	int startCustomer = lenCustomer - 40;
-	int istartCustomer = startCustomer;*/
-	
+	//satisfied msg
+	int lenSat = mystrlen(msgCustomerSatisfied);
+	int startSat = lenSat - 20;
+	int istartSat = startSat;
+	//customer too cheap msg
+	int lenCheap = mystrlen(msgCustomerCheap);
+	int startCheap = lenCheap - 20;
+	int istartCheap = startCheap;
+	//too sour msg
+	int lenSour = mystrlen(msgCustomerTasteSour);
+	int startSour = lenSour - 20;
+	int istartSour = startSour;
+	//too sweet msg
+	int lenSweet = mystrlen(msgCustomerTasteSweet);
+	int startSweet = lenSweet - 20;
+	int istartSweet = startSweet;
+	//no stock msg
+	int lenNoStock = mystrlen(msgCustomerNoStock);
+	int startNoStock = -2;
+	int istartNoStock = startNoStock;
+	//last customermsg
+	int lenLast = mystrlen(msgCustomerLast);
+	int startLast = lenLast - 20;
+	int istartLast = startLast;
 	
 	while (true)
 	{
 		//call random event
+		gotoxy(0,1);
 		randomEvent();
+		gotoxy(0,0);
 		updateCustomerTimer();
+	
 		//find difference in time
 		int timeNow = GetTickCount();
 		int dt = timeNow - timeAtStartOfLastUpdate;
@@ -224,6 +255,98 @@ int dayTimer()
 			}
 		}
 		}
+	if(eCustomerSatisfied==true)
+	{
+		--istartSat;
+		for (i=0; i < 80; ++i)
+		{
+			if ((istartSat + i) >= lenSat)
+			{
+				fputc(msgCustomerSatisfied[(istartSat + i) - lenSat], stdout);
+			}
+			else
+			{
+				fputc(msgCustomerSatisfied[istartSat + i], stdout);
+			}
+		}
+	}
+	else if(eCustomerCheap==true)
+	{
+		--istartCheap;
+		for (i=0; i < 80; ++i)
+		{
+			if ((istartCheap + i) >= lenCheap)
+			{
+				fputc(msgCustomerCheap[(istartCheap + i) - lenCheap], stdout);
+			}
+			else
+			{
+				fputc(msgCustomerCheap[istartCheap + i], stdout);
+			}
+		}
+	}
+	else if(eCustomerTasteSweet==true)
+	{
+		--istartSweet;
+		for (i=0; i < 80; ++i)
+		{
+			if ((istartSweet + i) >= lenSweet)
+			{
+				fputc(msgCustomerTasteSweet[(istartSweet + i) - lenSweet], stdout);
+			}
+			else
+			{
+				fputc(msgCustomerTasteSweet[istartCheap + i], stdout);
+			}
+		}
+	}
+	else if(eCustomerTasteSour==true)
+	{
+		--istartSour;
+		for (i=0; i < 80; ++i)
+		{
+			if ((istartSour + i) >= lenSour)
+			{
+				fputc(msgCustomerTasteSour[(istartSour + i) - lenSour], stdout);
+			}
+			else
+			{
+				fputc(msgCustomerTasteSour[istartCheap + i], stdout);
+			}
+		}
+	}
+	else if(eCustomerNoStock==true)
+	{
+		--istartNoStock;
+		for (i=0; i < 80; ++i)
+		{
+			if ((istartNoStock + i) >= lenNoStock)
+			{
+				fputc(msgCustomerNoStock[(istartSat + i) - lenNoStock], stdout);
+				
+			}
+			else
+			{
+				fputc(msgCustomerNoStock[istartNoStock + i], stdout);
+				
+			}
+		}
+	}
+	else if(eCustomerLast==true)
+	{
+		--istartLast;
+		for (i=0; i < 80; ++i)
+		{
+			if ((istartLast + i) >= lenLast)
+			{
+				fputc(msgCustomerLast[(istartLast + i) - lenLast], stdout);
+			}
+			else
+			{
+				fputc(msgCustomerLast[istartLast + i], stdout);
+			}
+		}
+	}
 	//text length max
 	startTime();
 
@@ -231,6 +354,12 @@ int dayTimer()
 	if (istartSugar == 0) istartSugar = lenSugar;
 	if (istartIce == 0) istartIce = lenIce;
 	if (istartLemonade == 0) istartLemonade = lenLemonade;
+	if (istartSat == 0) istartSat = lenSat;
+	if (istartCheap == 0) istartCheap = lenCheap;
+	if (istartSweet == 0) istartSweet = lenSweet;
+	if (istartSour == 0) istartSour = lenSour;
+	if (istartNoStock == 0) istartNoStock = lenNoStock;
+	if (istartLast == 0) istartLast = lenLast;
 
 	//clear input
 	fflush(NULL);
@@ -255,10 +384,12 @@ int dayTimer()
 
 
 	//display day events to player
+	cout<<endl;
+	cout<<endl;
 	cout<<"time left in day: " <<timeLeft<<" second(s)"<<endl;
 	cout<<endl;
 	cout<<"Lemonade sold: "<<iLemonadeSold<<" cups"<<endl;
-	if(fStockLemonade>=0)
+	if(fStockLemonade<=0)
 	{
 		cout<<"YOU HAVE RUN OUT OF LEMONADE"<<endl;
 	}
@@ -273,12 +404,27 @@ int dayTimer()
 	//if dayTime greater than 10secs, exit
 	if(secondsPassed==DAY_LENGTH)
 	{
-		//TODO; display end of day report, clear var (lemonadestock)
-		
+		//iCustomerCount
+		system("cls");
+		//INSERT WEATHER FAX HERE
+		cout<<"You served "<<iCustomerCount<<" customers today!"<<endl;
+		cout<<"You sold "<<iLemonadeSold<<" cups of Lemonade totalling $"<<(iLemonadeSold*sLemonadeRecipe.fLemonadePrice)<<endl;
+		cout<<"You lost "<<fLemonLoss<<" lemon(s) today"<<endl;
+		cout<<"You lost "<<fSugarLoss<<" cup(s) of sugar today"<<endl;
+		cout<<"You lost "<<fIceLoss<<" cup(s) of ice today"<<endl;
+		cout<<fLemonadeLoss<<" cups of Lemonade were stolen"<<endl;
+
+		system("pause");
+		//TODO; display end of day report, clear var (lemonadestock, daily wastes)
+		bDayCycle=false;
 		lastTime = 0;
 		iDaysPassed += 1;
 		return 0;
+		//clear values
 		fStockLemonade=0;
+		fLemonLoss=0;
+		fSugarLoss=0;
+		fIceLoss=0;
 	}
 
 }

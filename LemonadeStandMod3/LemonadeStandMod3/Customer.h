@@ -14,3 +14,13 @@ extern float fLemonLoss;
 extern float fLemonadeLoss;
 
 extern int mystrlen(char *s);
+
+extern bool bDayCycle;
+
+//eventbool
+extern bool eCustomerSatisfied;
+extern bool eCustomerCheap;
+extern bool eCustomerTasteSour;
+extern bool eCustomerTasteSweet;
+extern bool eCustomerNoStock;
+extern bool eCustomerLast;

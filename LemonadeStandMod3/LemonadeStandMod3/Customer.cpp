@@ -21,6 +21,41 @@ int iCustomerCount;
 extern struct RecipeStruct sLemonadeRecipe;
 extern void startTime();
 
+void gotoxy( int column, int line )
+  {
+  COORD coord;
+  coord.X = column;
+  coord.Y = line;
+  SetConsoleCursorPosition(
+    GetStdHandle( STD_OUTPUT_HANDLE ),
+    coord
+    );
+  }
+
+int wherex()
+  {
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  COORD                      result;
+  if (!GetConsoleScreenBufferInfo(
+         GetStdHandle( STD_OUTPUT_HANDLE ),
+         &csbi
+         ))
+    return -1;
+  return result.X;
+  }
+
+int wherey()
+  {
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  COORD                      result;
+  if (!GetConsoleScreenBufferInfo(
+         GetStdHandle( STD_OUTPUT_HANDLE ),
+         &csbi
+         ))
+    return -1;
+  return result.Y;
+  }
+
 void saleScreen()
 {
 	/*system("cls");
@@ -66,16 +101,6 @@ void customerFrugality()
 		}
 	}*/
 }
-
-//RE CUSTOMER MESSAGES
-
-char msgCustomerSatisfied[] = " ANOTHER SATISFIED CUSTOMER! ";
-char msgCustomerCheap[] =  " ''YOUR LEMONADE IS TOO EXPENSIVE'' ";
-char msgCustomerTasteSour[] = " ''YOUR LEMONADE IS TOO SOUR'' ";
-char msgCustomerTasteSweet[] = " ''YOUR LEMONADE IS TOO SWEET'' ";
-char msgCustomerNoStock[] = " YOU ARE OUT OF LEMONADE AND NEED TO MAKE MORE! ";
-char msgCustomerLast[] = " THE CUSTOMER BOUGHT ALL YOUR LEMONADE LEFT! ";
-
 //eventbool
 bool eCustomerSatisfied = false;
 bool eCustomerCheap = false;
@@ -91,31 +116,6 @@ void updateCustomerTimer()
 	int i;
 	//random cup number gen
 	int iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;
-
-	//satisfied msg
-	int lenSat = mystrlen(msgCustomerSatisfied);
-	int startSat = lenSat - 20;
-	int istartSat = startSat;
-	//customer too cheap msg
-	int lenCheap = mystrlen(msgCustomerCheap);
-	int startCheap = lenCheap - 20;
-	int istartCheap = startCheap;
-	//too sour msg
-	int lenSour = mystrlen(msgCustomerTasteSour);
-	int startSour = lenSour - 20;
-	int istartSour = startSour;
-	//too sweet msg
-	int lenSweet = mystrlen(msgCustomerTasteSweet);
-	int startSweet = lenSweet - 20;
-	int istartSweet = startSweet;
-	//no stock msg
-	int lenNoStock = mystrlen(msgCustomerNoStock);
-	int startNoStock = -2;
-	int istartNoStock = startNoStock;
-	//last customermsg
-	int lenLast = mystrlen(msgCustomerLast);
-	int startLast = lenLast - 20;
-	int istartLast = startLast;
 
 	if( fStockLemonade >= iCups ) //If player has sufficient stock
 	{
@@ -137,7 +137,7 @@ void updateCustomerTimer()
 						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
 						eCustomerSatisfied=true;
 					}
@@ -150,7 +150,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -170,7 +170,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -205,7 +205,7 @@ void updateCustomerTimer()
 						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
 						eCustomerSatisfied=true;
 					}
@@ -218,7 +218,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -238,7 +238,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -273,7 +273,7 @@ void updateCustomerTimer()
 						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
 						eCustomerSatisfied=true;
 					}
@@ -286,7 +286,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -306,7 +306,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -341,7 +341,7 @@ void updateCustomerTimer()
 						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 						//CUSTOMER SATISFIED MSG
 						eCustomerSatisfied=true;
 					}
@@ -354,7 +354,7 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;\
+							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;\
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
@@ -374,13 +374,13 @@ void updateCustomerTimer()
 							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
 							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
+						//	cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
 							//CUSTOMER SATISFIED MSG
 							eCustomerSatisfied=true;
 						}
 						else
 						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
+						//	cout<<"The customer thinks your price is too high!"<<endl;
 							//CUSTOMER TOO CHEAP
 							eCustomerCheap=true;
 						}
@@ -388,7 +388,7 @@ void updateCustomerTimer()
 				}
 				else //lemonade is not to taste!
 				{
-					//cout<<"The customer hated your recipe and bought nothing!"<<endl;
+				//	cout<<"The customer hated your recipe and bought nothing!"<<endl;
 					//LEMONADE IS TOO SOUR FOR CUSTOMER
 					eCustomerTasteSour=true;
 				}
@@ -421,123 +421,13 @@ void updateCustomerTimer()
 	}
 	else if (fStockLemonade <= 0)//If player has no stock
 	{
-		/*system("cls");
-		cout<<"*!* You have no Lemonade in stock *!*"<<endl;
-		cout<<"*!* Buy ingredients and make Lemonade to get customers *!*"<<endl;
-		system("pause");*/
+		//system("cls");
+		//gotoxy(0,0);
+		//cout<<"*!* You have no Lemonade in stock *!*"<<endl;
+		//cout<<"*!* Buy ingredients and make Lemonade to get customers *!*"<<endl;
+		//system("pause");
 		//CUSTOMER HAS NO STOCK
 		eCustomerNoStock=true;
-	}
-
-	while(true)
-	{
-	//PRINT EVENT TO SCREEN
-	if(eCustomerSatisfied==true)
-	{
-		--istartSat;
-		for (i=0; i < 80; ++i)
-		{
-			if ((istartSat + i) >= lenSat)
-			{
-				fputc(msgCustomerSatisfied[(istartSat + i) - lenSat], stdout);
-			}
-			else
-			{
-				fputc(msgCustomerSatisfied[istartSat + i], stdout);
-			}
-		}
-	}
-	else if(eCustomerCheap==true)
-	{
-		--istartCheap;
-		for (i=0; i < 80; ++i)
-		{
-			if ((istartCheap + i) >= lenCheap)
-			{
-				fputc(msgCustomerCheap[(istartCheap + i) - lenCheap], stdout);
-			}
-			else
-			{
-				fputc(msgCustomerCheap[istartCheap + i], stdout);
-			}
-		}
-	}
-	else if(eCustomerTasteSweet==true)
-	{
-		--istartSweet;
-		for (i=0; i < 80; ++i)
-		{
-			if ((istartSweet + i) >= lenSweet)
-			{
-				fputc(msgCustomerTasteSweet[(istartSweet + i) - lenSweet], stdout);
-			}
-			else
-			{
-				fputc(msgCustomerTasteSweet[istartCheap + i], stdout);
-			}
-		}
-	}
-	else if(eCustomerTasteSour==true)
-	{
-		--istartSour;
-		for (i=0; i < 80; ++i)
-		{
-			if ((istartSour + i) >= lenSour)
-			{
-				fputc(msgCustomerTasteSour[(istartSour + i) - lenSour], stdout);
-			}
-			else
-			{
-				fputc(msgCustomerTasteSour[istartCheap + i], stdout);
-			}
-		}
-	}
-	else if(eCustomerNoStock==true)
-	{
-		--istartNoStock;
-		for (i=0; i < 80; ++i)
-		{
-			if ((istartNoStock + i) >= lenNoStock)
-			{
-				fputc(msgCustomerNoStock[(istartSat + i) - lenNoStock], stdout);
-				
-			}
-			else
-			{
-				fputc(msgCustomerNoStock[istartNoStock + i], stdout);
-				
-			}
-		}
-	}
-	else if(eCustomerLast==true)
-	{
-		--istartLast;
-		for (i=0; i < 80; ++i)
-		{
-			if ((istartLast + i) >= lenLast)
-			{
-				fputc(msgCustomerLast[(istartLast + i) - lenLast], stdout);
-			}
-			else
-			{
-				fputc(msgCustomerLast[istartLast + i], stdout);
-			}
-		}
-	}
-	
-	//IF END OF SCREEN, WRAP
-	if (istartSat == 0) istartSat = lenSat;
-	if (istartCheap == 0) istartCheap = lenCheap;
-	if (istartSweet == 0) istartSweet = lenSweet;
-	if (istartSour == 0) istartSour = lenSour;
-	if (istartNoStock == 0) istartNoStock = lenNoStock;
-	if (istartLast == 0) istartLast = lenLast;
-	//clear input
-	fflush(stdout);
-	Sleep(100);
-	system("cls");
-	
-	
 	}
 	
 }
