@@ -59,8 +59,8 @@ int playGame()
 	{
 		fMoneyOnHand +=(rand()%(100-25))+25;
 		fStockLemon +=(rand()%(25-10))+10;
-		fStockSugar +=(rand()%(25-10))+10;
-		fStockIce +=(rand()%(25-10))+10;
+		fStockSugar +=(rand()%(45-25))+25;
+		fStockIce +=(rand()%(80-40))+40;
 		bStartUp=true;
 	}
 		
@@ -107,6 +107,7 @@ int playGame()
 			stateGame=VIEW_STOCK;
 			{
 			system("cls");
+			randomStockPrice();
 			shopMenu();
 			stateGame=MAIN_MENU;
 			}
@@ -115,6 +116,7 @@ int playGame()
 			stateGame=MAKE_LEMONADE;
 			{
 			system("cls");
+			randomStockLoss();
 			displayRecipe();
 			makeLemonade();
 			}

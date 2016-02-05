@@ -15,5 +15,7 @@ extern void displayRecipe();
 extern void makeLemonade();
 extern void changeRecipe();
 extern void shopMenu();
+extern void randomStockPrice();
+extern void randomStockLoss();
 extern int dayTimer();
 extern unsigned int diffTime, newTime;

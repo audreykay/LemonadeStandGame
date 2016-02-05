@@ -17,6 +17,9 @@ using namespace std;
 //missed cups
 int iMissedCups;
 int iUpdateCounter;
+int iCups;
+int iFrugality;
+
 //counters for Daily Report
 int iCustomerCount;
 int iCustomerCountCheap;
@@ -33,6 +36,7 @@ bool eCustomerLast = false;
 extern struct RecipeStruct sLemonadeRecipe;
 extern void startTime();
 
+//cursor control functions
 void gotoxy( int column, int line )
   {
   COORD coord;
@@ -68,50 +72,61 @@ int wherey()
   return result.Y;
   }
 
-void saleScreen()
+//successful sale calculations
+void soldScreen()
 {
-	/*system("cls");
 	fStockLemonade = fStockLemonade - iCups;
-	fMoneyOnHand = (fMoneyOnHand + (fLemonadePrice*iCups));
-	fLemonadeProfit = (fLemonadeProfit + (fLemonadePrice*iCups));
+	fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
+	fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
 	iLemonadeSold = iLemonadeSold + iCups;
-	cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(fLemonadePrice*iCups)<<" *!*"<<endl;
-	system("pause");
-	updateCustomerTimer();*/
 }
 
+//assessing customer frugality and selling lemonade
 void customerFrugality()
 {
-	//assign a frugality
-	/*int iFrugality = rand()%10;
-
+	iFrugality = rand()%10;
 	//check customers frugality
 	if (iFrugality <= 5) //customer will buy anything
 	{
-		//saleScreen();
+		//add to successful customer count
+		iCustomerCount+=1;
+		//do sales calculations
+		soldScreen();
+		//event message trigger
+		eCustomerSatisfied=true;
 	}
 	else if (iFrugality == 6 || 7) //customer will buy under $2
 	{
-		if (fLemonadePrice <= 2)
+		if (sLemonadeRecipe.fLemonadePrice <= 2)
 		{
-			//saleScreen();
+			//add to successful customer count
+			iCustomerCount+=1;
+			//do sales calculations
+			soldScreen();
+			//event message trigger
+			eCustomerSatisfied=true;
 		}
 		else
 		{
-			cout<<"The customer thinks your price is too high!"<<endl;
+			eCustomerCheap=true;
 		}
 	}
 	else if (iFrugality == 8 || 9) //customer will buy under $1.5
 	{
-		if (fLemonadePrice <= 1.5)
+		if (sLemonadeRecipe.fLemonadePrice <= 1.5)
 		{
-			//saleScreen();
+			//add to successful customer count
+			iCustomerCount+=1;
+			//do sales calculations
+			soldScreen();
+			//event message trigger
+			eCustomerSatisfied=true;
 		}
 		else
 		{
-			cout<<"The customer thinks your price is too high!"<<endl;
+			eCustomerCheap=true;
 		}
-	}*/
+	}
 }
 
 
@@ -120,7 +135,7 @@ void updateCustomerTimer()
 	int i;
 	iUpdateCounter+=1;
 	//random cup number gen
-	int iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;
+	iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;
 
 	if( fStockLemonade >= iCups ) //If player has sufficient stock
 	{
@@ -131,61 +146,9 @@ void updateCustomerTimer()
 				//check lemonade is sour
 				if (iLemonadeTaste == 0) //lemonade is sour!
 				{
+					iCustomerCount+=1;
 					//assign a frugality
-					int iFrugality = rand()%10;
-
-					//check customers frugality
-					if (iFrugality <= 5) //customer will buy anything
-					{
-						iCustomerCount+=1;
-						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-						//CUSTOMER SATISFIED MSG
-						eCustomerSatisfied=true;
-					}
-					else if (iFrugality == 6 || 7) //customer will buy under $2
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 2)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
-					else if (iFrugality == 8 || 9) //customer will buy under $1.5
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
+					customerFrugality();
 				}
 				else //lemonade is not to taste!
 				{
@@ -199,61 +162,9 @@ void updateCustomerTimer()
 				//check lemonade is sour or standard
 				if (iLemonadeTaste == 0 || 1) //lemonade is sour or stand!
 				{
+					iCustomerCount+=1;
 					//assign a frugality
-					int iFrugality = rand()%10;
-
-					//check customers frugality
-					if (iFrugality <= 5) //customer will buy anything
-					{
-						iCustomerCount+=1;
-						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-						//CUSTOMER SATISFIED MSG
-						eCustomerSatisfied=true;
-					}
-					else if (iFrugality == 6 || 7) //customer will buy under $2
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 2)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
-					else if (iFrugality == 8 || 9) //customer will buy under $1.5
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
+					customerFrugality();
 				}
 				else //lemonade is not to taste!
 				{
@@ -267,61 +178,9 @@ void updateCustomerTimer()
 				//check lemonade is stand or sweet
 				if (iLemonadeTaste == 1 || 2) //lemonade is standard or sweet!
 				{
+					iCustomerCount+=1;
 					//assign a frugality
-					int iFrugality = rand()%10;
-
-					//check customers frugality
-					if (iFrugality <= 5) //customer will buy anything
-					{
-						iCustomerCount+=1;
-						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-						//CUSTOMER SATISFIED MSG
-						eCustomerSatisfied=true;
-					}
-					else if (iFrugality == 6 || 7) //customer will buy under $2
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 2)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
-					else if (iFrugality == 8 || 9) //customer will buy under $1.5
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
+					customerFrugality();
 				}
 				else //lemonade is not to taste!
 				{
@@ -335,61 +194,9 @@ void updateCustomerTimer()
 				//check lemonade is sweet
 				if (iLemonadeTaste == 3) //lemonade is sweet!
 				{
+					iCustomerCount+=1;
 					//assign a frugality
-					int iFrugality = rand()%10;
-
-					//check customers frugality
-					if (iFrugality <= 5) //customer will buy anything
-					{
-						iCustomerCount+=1;
-						fStockLemonade = fStockLemonade - iCups;
-						fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-						fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-						iLemonadeSold = iLemonadeSold + iCups;
-						//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-						//CUSTOMER SATISFIED MSG
-						eCustomerSatisfied=true;
-					}
-					else if (iFrugality == 6 || 7) //customer will buy under $2
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 2)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-							//cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;\
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-							//cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
-					else if (iFrugality == 8 || 9) //customer will buy under $1.5
-					{
-						if (sLemonadeRecipe.fLemonadePrice <= 1.5)
-						{
-							iCustomerCount+=1;
-							fStockLemonade = fStockLemonade - iCups;
-							fMoneyOnHand = (fMoneyOnHand + (sLemonadeRecipe.fLemonadePrice*iCups));
-							fLemonadeProfit = (fLemonadeProfit + (sLemonadeRecipe.fLemonadePrice*iCups));
-							iLemonadeSold = iLemonadeSold + iCups;
-						//	cout<<"*!* You sold "<<iCups<<" cups of Lemonade and earned $"<<(sLemonadeRecipe.fLemonadePrice*iCups)<<" *!*"<<endl;
-							//CUSTOMER SATISFIED MSG
-							eCustomerSatisfied=true;
-						}
-						else
-						{
-						//	cout<<"The customer thinks your price is too high!"<<endl;
-							//CUSTOMER TOO CHEAP
-							eCustomerCheap=true;
-						}
-					}
+					customerFrugality();
 				}
 				else //lemonade is not to taste!
 				{
@@ -406,7 +213,7 @@ void updateCustomerTimer()
 		}
 		
 	}
-	else if( fStockLemonade > iCups && fStockLemonade < 0)//Player has insufficient stock for cust, but more than 0
+	/*else if( fStockLemonade > iCups && fStockLemonade < 0)//Player has insufficient stock for cust, but more than 0
 	{
 		//system("cls");
 		iMissedCups = (iCups - fStockLemonade);
@@ -423,7 +230,7 @@ void updateCustomerTimer()
 		//system("pause");
 		//LAST CUSTOMER MSG
 		eCustomerLast=true;
-	}
+	}*/
 	else if (fStockLemonade <= 0)//If player has no stock
 	{
 		//system("cls");

@@ -17,7 +17,9 @@ float randomPrice(float max, float min)
 {
 	return max + (rand() / (RAND_MAX / (min-max) ) );
 }
-
+float COST_LEMON;
+float COST_SUGAR;
+float COST_ICE;
 
 //variables
 RecipeStruct sLemonadeRecipe;
@@ -60,17 +62,31 @@ void displayRecipe()
 	cout<< sLemonadeRecipe.fSugarRecipe << " Cups of Sugar" <<endl;
 	cout<< sLemonadeRecipe.fIceRecipe << " Cups of Ice" <<endl;
 	cout<< "$ "<<sLemonadeRecipe.fLemonadePrice<<" Per Cup"<<endl;
+	if(iLemonadeTaste==sourTaste)
+	{
+		cout<<"SOUR Flavour"<<endl;
+	}
+	else if(iLemonadeTaste==standardTaste)
+	{
+		cout<<"STANDARD Flavour"<<endl;
+	}
+	else if(iLemonadeTaste==sweetTaste)
+	{
+		cout<<"SWEET Flavour"<<endl;
+	}
+}
+
+void randomStockPrice()
+{
+	COST_LEMON = randomPrice(MAX_COST_LEMON,MIN_COST_LEMON);
+	COST_SUGAR = randomPrice(MAX_COST_SUGAR,MIN_COST_SUGAR);
+	COST_ICE = randomPrice(MAX_COST_ICE,MIN_COST_ICE);
 }
 
 void shopMenu()
 {
 	int iStockChoice;
 	int iStockNumber;
-
-	//Random Stock Prices
-	float COST_LEMON = randomPrice(MAX_COST_LEMON,MIN_COST_LEMON);
-	float COST_SUGAR = randomPrice(MAX_COST_SUGAR,MIN_COST_SUGAR);
-	float COST_ICE = randomPrice(MAX_COST_ICE,MIN_COST_ICE);
 
 	displayRecipe();
 	cout<<endl;
@@ -256,7 +272,7 @@ void makeLemonade()
 		cout<<endl;
 		if(iLemonadeJug<0)
 		{
-			cout<<"Please use a positive number!"<<endl;
+			cout<<"Please use a positive whole number!"<<endl;
 		}
 		//check there is enough stock to make lemonade
 		if ((fStockLemon >= iLemonadeJug*RECIPE_LEMON)
@@ -288,6 +304,7 @@ void makeLemonade()
 		break;
 	default:
 		{
+			system("cls");
 			cout<<"*~*Please enter a valid number*~*"<<endl;
 			makeLemonade();
 		}
@@ -307,7 +324,7 @@ void changeRecipe()
 	{
 		iLemonadeTaste = sweetTaste;
 	}
-	else 
+	else if (sLemonadeRecipe.fLemonRecipe == sLemonadeRecipe.fSugarRecipe)
 	{
 		iLemonadeTaste = standardTaste;
 	}
@@ -315,6 +332,7 @@ void changeRecipe()
 	system("cls");
 	int iMenuChoice;
 	displayRecipe();
+	cout<<endl;
 	cout<<"Would you like to alter the recipe and price?"<<endl;
 	cout<<"1.	Yes"<<endl;
 	cout<<"2.	No (Return to Menu)"<<endl;
@@ -326,10 +344,10 @@ void changeRecipe()
 	{
 	case 1:
 		{
-			cout<<"Change lemons per jug to: ";
+			//change lemons used
+			cout<<"Change LEMONS per jug to: ";
 			cin>>sLemonadeRecipe.fLemonRecipe;
 			cout<<endl;
-			//no cheating Jason!
 			if (sLemonadeRecipe.fLemonRecipe < 1)
 			{
 				cout<<"Please use at least 1 part lemon!"<<endl;
@@ -338,7 +356,8 @@ void changeRecipe()
 				cin>> sLemonadeRecipe.fLemonRecipe;
 				cout<<endl;
 			}
-			cout<<"Change bags of sugar per jug to: ";
+			//change sugar used
+			cout<<"Change cups of SUGAR per jug to: ";
 			cin>>sLemonadeRecipe.fSugarRecipe;
 			cout<<endl;
 			if (sLemonadeRecipe.fSugarRecipe < 1)
@@ -346,10 +365,11 @@ void changeRecipe()
 				cout<<"Please use at least 1 cup of sugar!"<<endl;
 				cout<<endl;
 				cout<<"Change bags of sugar per jug to: ";
-				cin>> sLemonadeRecipe.fLemonRecipe;
+				cin>> sLemonadeRecipe.fSugarRecipe;
 				cout<<endl;
 			}
-			cout<<"Change bags of ice per jug to: ";
+			//change ice used
+			cout<<"Change cups of ICE per jug to: ";
 			cin>>sLemonadeRecipe.fIceRecipe;
 			cout<<endl;
 			if (sLemonadeRecipe.fIceRecipe < 1)
@@ -357,15 +377,24 @@ void changeRecipe()
 				cout<<"Please use at least 1 cup of ice!"<<endl;
 				cout<<endl;
 				cout<<"Change bags of ice per jug to: ";
-				cin>> sLemonadeRecipe.fLemonRecipe;
+				cin>> sLemonadeRecipe.fIceRecipe;
 				cout<<endl;
 			}
-			cout<<"Change price of Lemonade per cup to: $";
+			//change price
+			cout<<"Change PRICE of Lemonade per cup to: $";
 			cin>>sLemonadeRecipe.fLemonadePrice;
 			cout<<endl;
 			if (sLemonadeRecipe.fLemonadePrice < 1)
 			{
 				cout<<"Please charge at least $1!"<<endl;
+				cout<<endl;
+				cout<<"Change price of Lemonade per cup to: $";
+				cin>> sLemonadeRecipe.fLemonadePrice;
+				cout<<endl;
+			}
+			else if(sLemonadeRecipe.fLemonadePrice > 5)
+			{
+				cout<<"Nobody wants to spend more than $5 on Lemonade!"<<endl;
 				cout<<endl;
 				cout<<"Change price of Lemonade per cup to: $";
 				cin>> sLemonadeRecipe.fLemonadePrice;
@@ -388,4 +417,41 @@ void changeRecipe()
 		break;
 	}
 
+}
+
+void randomStockLoss()
+{
+	int iRandomStock = rand()%3;
+
+	switch (iRandomStock)
+	{
+	case 0: //randomly lose sugar
+		{
+			if(fStockSugar >= 2)
+			{
+			cout<<"Rats spoiled a bag of sugar while you were gone!"<<endl;
+			fStockSugar -= 8;
+			}
+		}
+		break;
+	case 1:
+		{
+			if(fStockIce >= 2)
+			{
+			cout<<"A bag of ice melted while you were gone!"<<endl;
+			fStockIce -= 20;
+			}
+		}
+		break;
+	case 2:
+		{
+			if(fStockLemon >= 2)
+			{
+			cout<<"A lemon spoiled while you were gone!"<<endl;
+			fStockLemon -= 1;
+			}
+		}
+		break;
+
+	}
 }

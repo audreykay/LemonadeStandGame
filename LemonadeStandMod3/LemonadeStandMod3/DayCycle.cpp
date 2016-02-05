@@ -32,6 +32,22 @@ extern struct RecipeStruct sLemonadeRecipe;
 //weather functionality
 int iWeatherTemp;
 
+//RE MESSAGES
+char msgLemon[] = " LEMONS WENT BAD! ";
+char msgSugar[] = " SUGAR SPOILED! ";
+char msgIce[] = " ICE MELTED! ";
+char msgLemonade[] = " LEMONADE GOT KNOCKED OVER! ";
+
+//RE CUSTOMER MESSAGES
+char msgCustomerSatisfied[] = " ANOTHER SATISFIED CUSTOMER! ";
+char msgCustomerCheap[] =  " ''YOUR LEMONADE IS TOO EXPENSIVE'' ";
+char msgCustomerTasteSour[] = " ''YOUR LEMONADE IS TOO SOUR'' ";
+char msgCustomerTasteSweet[] = " ''YOUR LEMONADE IS TOO SWEET'' ";
+char msgCustomerNoStock[] = " YOU ARE OUT OF LEMONADE AND NEED TO MAKE MORE! ";
+char msgCustomerLast[] = " THE CUSTOMER BOUGHT ALL YOUR LEMONADE LEFT! ";
+
+//timer vars
+unsigned int diffTime = 0, lastTime = 0, newTime = 0;
 
 //start timer
 unsigned long startTime_;
@@ -69,8 +85,8 @@ void randomEvent()
 			//cout<<"Rats spoiled "<<iRandomSugar<<" bag(s) of sugar!"<<endl;
 			if(fStockSugar >= 1 && fStockSugar >= iRandomSugar)
 			{
-			fSugarLoss += iRandomSugar;
-			fStockSugar -= iRandomSugar;
+			fSugarLoss += (iRandomSugar*8);
+			fStockSugar -= (iRandomSugar*8);
 			}
 		}
 		break;
@@ -81,8 +97,8 @@ void randomEvent()
 			//cout<<iRandomIce<<" bag(s) of ice melted!"<<endl;
 			if(fStockIce >= 1 && fStockIce >= iRandomIce)
 			{
-			fIceLoss += iRandomIce;
-			fStockIce -= iRandomIce;
+			fIceLoss += (iRandomIce*20);
+			fStockIce -= (iRandomIce*20);
 			}
 		}
 		break;
@@ -113,24 +129,26 @@ void randomEvent()
 	}
 	
 }
-//RE MESSAGES
-char msgLemon[] = " LEMONS WENT BAD! ";
-char msgSugar[] = " SUGAR SPOILED! ";
-char msgIce[] = " ICE MELTED! ";
-char msgLemonade[] = " LEMONADE GOT KNOCKED OVER! ";
 
-//RE CUSTOMER MESSAGES
-char msgCustomerSatisfied[] = " ANOTHER SATISFIED CUSTOMER! ";
-char msgCustomerCheap[] =  " ''YOUR LEMONADE IS TOO EXPENSIVE'' ";
-char msgCustomerTasteSour[] = " ''YOUR LEMONADE IS TOO SOUR'' ";
-char msgCustomerTasteSweet[] = " ''YOUR LEMONADE IS TOO SWEET'' ";
-char msgCustomerNoStock[] = " YOU ARE OUT OF LEMONADE AND NEED TO MAKE MORE! ";
-char msgCustomerLast[] = " THE CUSTOMER BOUGHT ALL YOUR LEMONADE LEFT! ";
+void displayEndOfDay()
+{
+	//INSERT WEATHER FAX HERE
+		cout<<"You served "<<iCustomerCount<<" customers today!"<<endl;
+		cout<<"You sold "<<iLemonadeSold<<" cups of Lemonade totalling $"<<(iLemonadeSold*sLemonadeRecipe.fLemonadePrice)<<endl;
+		cout<<endl;
+		cout<<"You lost "<<fLemonLoss<<" lemon(s) today"<<endl;
+		cout<<"You lost "<<(fSugarLoss/8)<<" bag(s) of sugar today"<<endl;
+		cout<<"You lost "<<(fIceLoss/20)<<" bag(s) of ice today"<<endl;
+		cout<<fLemonadeLoss<<" cups of Lemonade were stolen"<<endl;
+		cout<<fStockLemonade<<" cups of Lemonade were wasted at the end of the day"<<endl;
+		cout<<endl;
+		cout<<iCustomerCountCheap<<" customer(s) thought your lemonade was too expensive!"<<endl;
+		cout<<iCustomerCountSweet<<" customer(s) thought your lemonade was too sweet!"<<endl;
+		cout<<iCustomerCountSour<<" customer(s) thought your lemonade was too sour!"<<endl;
 
-unsigned int diffTime = 0, lastTime = 0, newTime = 0;
+}
 
-
-
+//run the day cycle
 int dayTimer()
 {
 	//set the weather
@@ -454,20 +472,8 @@ int dayTimer()
 	{
 		//iCustomerCount
 		system("cls");
-		//INSERT WEATHER FAX HERE
-		cout<<"You served "<<iCustomerCount<<" customers today!"<<endl;
-		cout<<"You sold "<<iLemonadeSold<<" cups of Lemonade totalling $"<<(iLemonadeSold*sLemonadeRecipe.fLemonadePrice)<<endl;
-		cout<<endl;
-		cout<<"You lost "<<fLemonLoss<<" lemon(s) today"<<endl;
-		cout<<"You lost "<<fSugarLoss<<" cup(s) of sugar today"<<endl;
-		cout<<"You lost "<<fIceLoss<<" cup(s) of ice today"<<endl;
-		cout<<fLemonadeLoss<<" cups of Lemonade were stolen"<<endl;
-		cout<<fStockLemonade<<" cups of Lemonade were wasted at the end of the day"<<endl;
-		cout<<endl;
-		cout<<iCustomerCountCheap<<" customer(s) thought your lemonade was too expensive!"<<endl;
-		cout<<iCustomerCountSweet<<" customer(s) thought your lemonade was too sweet!"<<endl;
-		cout<<iCustomerCountSour<<" customer(s) thought your lemonade was too sour!"<<endl;
-
+		//END OF DAY REPORT
+		displayEndOfDay();
 		system("pause");
 		//TODO; display end of day report, clear var (lemonadestock, daily wastes)
 		bDayCycle=false;
