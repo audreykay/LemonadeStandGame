@@ -15,8 +15,7 @@ enum GAMESTATE
 	CHANGE_RECIPE,
 	DAY_CYCLE,
 	EXIT_GAME,
-	WIN_GAME,
-	LOSE_GAME
+	WIN_GAME
 };
 
 //min-max stock costs
@@ -32,4 +31,4 @@ const int MAX_CUPS = 10;
 const int MIN_CUPS = 1;
 
 //win win win
-const int MONETARY_GOAL = 500;
+const int MONETARY_GOAL = 5000;

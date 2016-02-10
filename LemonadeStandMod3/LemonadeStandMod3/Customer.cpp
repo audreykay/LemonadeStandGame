@@ -132,7 +132,7 @@ void customerFrugality()
 
 void updateCustomerTimer()
 {	
-	int i;
+	//add to counter for RE frequency
 	iUpdateCounter+=1;
 	//random cup number gen
 	iCups = rand()%( MAX_CUPS - MIN_CUPS ) + MIN_CUPS;

@@ -57,10 +57,21 @@ int playGame()
 	//MYSTERIOUS BENEFACTOR
 		if(bStartUp==false)
 	{
+		system("cls");
 		fMoneyOnHand +=(rand()%(100-25))+25;
 		fStockLemon +=(rand()%(25-10))+10;
 		fStockSugar +=(rand()%(45-25))+25;
 		fStockIce +=(rand()%(80-40))+40;
+		cout<<"------"<<endl;
+		cout<<"WELCOME TO YOUR VERY OWN LEMONADE STAND!"<<endl;
+		cout<<"------"<<endl;
+		cout<<"Your benefactor has granted you:"<<endl;
+		cout<<"$"<<fMoneyOnHand<<endl;
+		cout<<fStockLemon<<" LEMONS"<<endl;
+		cout<<fStockSugar/8<<" bags of SUGAR"<<endl;
+		cout<<fStockIce/20<<" bags of ICE"<<endl;
+		cout<<endl;
+		system("pause");
 		bStartUp=true;
 	}
 		
@@ -80,18 +91,38 @@ int playGame()
 	cout <<"------" <<endl;
 	cout <<"Game Menu"<<endl;
 	cout <<"------"<<endl;
-	cout <<"1.	View Stock and Finances"<<endl;
-	cout <<"2.	Buy Stock"<<endl;
-	cout <<"3.	Make Lemonade"<<endl;
-	cout <<"4.	Change recipe and price"<<endl;
-	cout <<"5.	Start Day"<<endl;
-	cout <<"6.	Exit to Main Menu"<<endl;
+	cout <<"1. View Stock and Finances"<<endl;
+	cout <<"2. Buy Stock"<<endl;
+	cout <<"3. Make Lemonade"<<endl;
+	cout <<"4. Change recipe and price"<<endl;
+	cout <<"5. Start Day"<<endl;
+	cout <<"6. Exit to Main Menu"<<endl;
 	cout <<"Please enter a number: ";
 	cin >>iChoice;
 
 	//main game menu loop
 	while(!bGameOver)
 	{
+		//endgame scenario	
+		//PLAYER WIN SCENARIO
+		if(fProfit >= MONETARY_GOAL) //If player reaches goal && daycycle not active
+		{
+			bGameOver = true;
+			stateGame=WIN_GAME;
+			system("cls");
+			cout<<"------"<<endl;
+			cout<<"!!!CONGRATULATIONS!!!"<<endl;
+			cout<<"------"<<endl;
+			cout<<"YOU HAVE WON THE GAME"<<endl;
+			cout<<endl;
+			cout<<"Total profit: $"<<fProfit<<endl;
+			cout<<"Days played: "<<iDaysPassed<<endl;
+			cout<<"Happy customers served: "<<iCustomerTotal<<endl;
+			system("pause");
+			return 0;
+			system("cls");
+		}
+
 		switch(iChoice)
 		{
 		case 1: //View Stock/Finances
@@ -100,6 +131,7 @@ int playGame()
 			system("cls");
 			displayStock();
 			displayFinances();
+			cout<<endl;
 			system("pause");
 			}
 			break;
@@ -109,7 +141,6 @@ int playGame()
 			system("cls");
 			randomStockPrice();
 			shopMenu();
-			stateGame=MAIN_MENU;
 			}
 			break;
 		case 3: //Make Lemonade
@@ -133,7 +164,7 @@ int playGame()
 			{
 			//diffTime=newTime;
 			system("cls");
-			dayTimer();
+			startDay();
 			}
 			break;
 		case 6: //Exit to Main Menu
@@ -159,12 +190,12 @@ int playGame()
 		cout <<"------" <<endl;
 		cout <<"Game Menu"<<endl;
 		cout <<"------"<<endl;
-		cout <<"1.	View Stock and Finances"<<endl;
-		cout <<"2.	Buy Stock"<<endl;
-		cout <<"3.	Make Lemonade"<<endl;
-		cout <<"4.	Change recipe and price"<<endl;
-		cout <<"5.	Start Day"<<endl;
-		cout <<"6.	Exit to Main Menu"<<endl;
+		cout <<"1. View Stock and Finances"<<endl;
+		cout <<"2. Buy Stock"<<endl;
+		cout <<"3. Make Lemonade"<<endl;
+		cout <<"4. Change recipe and price"<<endl;
+		cout <<"5. Start Day"<<endl;
+		cout <<"6. Exit to Main Menu"<<endl;
 		cout <<"Please enter a number: ";
 		cin >>iChoice;
 	}
@@ -182,10 +213,10 @@ int main(int argc, const char*argv[])
 	cout << "------" <<endl;
 	cout << "Main Menu" <<endl;
 	cout << "------" <<endl;
-	cout << "1.	Play Game" <<endl;
-	cout << "2.	View Instructions" <<endl;
-	cout << "3.	View Credits" <<endl;
-	cout << "4.	Exit Program" <<endl;
+	cout << "1. Play Game" <<endl;
+	cout << "2. View Instructions" <<endl;
+	cout << "3. View Credits" <<endl;
+	cout << "4. Exit Program" <<endl;
 	cout << "Please enter your choice: ";
 	cin >> iMenuChoice;
 
@@ -231,6 +262,7 @@ int main(int argc, const char*argv[])
 			break;
 		default: //invalid choice
 			{
+			system("cls");
 			cout << "Please choose a valid number! "<<endl;
 			system("pause");
 			system("cls");
@@ -242,10 +274,10 @@ int main(int argc, const char*argv[])
 	cout << "------" <<endl;
 	cout << "Main Menu" <<endl;
 	cout << "------" <<endl;
-	cout << "1.	Play Game" <<endl;
-	cout << "2.	View Instructions" <<endl;
-	cout << "3.	View Credits" <<endl;
-	cout << "4.	Exit Program" <<endl;
+	cout << "1. Play Game" <<endl;
+	cout << "2. View Instructions" <<endl;
+	cout << "3. View Credits" <<endl;
+	cout << "4. Exit Program" <<endl;
 	cout << "Please enter your choice: ";
 	cin >> iMenuChoice;
 	}

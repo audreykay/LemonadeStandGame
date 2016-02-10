@@ -24,10 +24,7 @@ float COST_ICE;
 //variables
 RecipeStruct sLemonadeRecipe;
 extern int iLemonadeTaste;
-int sourTaste = 0;
-int standardTaste = 1;
-int sweetTaste = 2;
-
+float fProfit = (fLemonadeProfit - fMoneySpent);
 
 void displayStock()
 {
@@ -42,8 +39,6 @@ void displayStock()
 
 void displayFinances()
 {
-	float fProfit = (fLemonadeProfit - fMoneySpent);
-
 	cout <<"Cash on Hand: $"<< fMoneyOnHand <<endl;
 	cout <<"Cups of Lemonade sold: "<< iLemonadeSold <<endl;
 	cout <<"Total profit: $"<< fProfit <<endl;
@@ -62,15 +57,15 @@ void displayRecipe()
 	cout<< sLemonadeRecipe.fSugarRecipe << " Cups of Sugar" <<endl;
 	cout<< sLemonadeRecipe.fIceRecipe << " Cups of Ice" <<endl;
 	cout<< "$ "<<sLemonadeRecipe.fLemonadePrice<<" Per Cup"<<endl;
-	if(iLemonadeTaste==sourTaste)
+	if(iLemonadeTaste==0)
 	{
 		cout<<"SOUR Flavour"<<endl;
 	}
-	else if(iLemonadeTaste==standardTaste)
+	else if(iLemonadeTaste==1)
 	{
 		cout<<"STANDARD Flavour"<<endl;
 	}
-	else if(iLemonadeTaste==sweetTaste)
+	else if(iLemonadeTaste==2)
 	{
 		cout<<"SWEET Flavour"<<endl;
 	}
@@ -97,10 +92,10 @@ void shopMenu()
 	cout<< "------"<<endl;
 	cout<<fixed;
 	cout<<setprecision(2);
-	cout<< "1.	Lemon $"<<COST_LEMON<<endl;
-	cout<< "2.	Bag of Sugar (8 cups) $"<<COST_SUGAR<<endl;
-	cout<< "3.	Bag of Ice (20 cups) $"<<COST_ICE<<endl;
-	cout<< "4.	Return to Game Menu"<<endl;
+	cout<< "1. Lemon $"<<COST_LEMON<<endl;
+	cout<< "2. Bag of Sugar (8 cups) $"<<COST_SUGAR<<endl;
+	cout<< "3. Bag of Ice (20 cups) $"<<COST_ICE<<endl;
+	cout<< "4. Return to Game Menu"<<endl;
 	cout<<endl;
 	cout<< "Cash on Hand: $"<< fMoneyOnHand <<endl;
 	
@@ -122,8 +117,11 @@ void shopMenu()
 		//NO NEGS
 		if(iStockNumber < 0)
 		{
-			cout<<"Please enter a valid number: ";
-			cin>> iStockNumber;
+			system("cls");
+			cout<<"Please enter a valid number!"<<endl;
+			system("pause");
+			system("cls");
+			shopMenu();
 		}
 		if(fMoneyOnHand < iStockNumber*COST_LEMON)
 		{
@@ -152,8 +150,11 @@ void shopMenu()
 		//NO NEGS
 		if(iStockNumber < 0)
 		{
-			cout<<"Please enter a valid number: ";
-			cin>> iStockNumber;
+			system("cls");
+			cout<<"Please enter a valid number!"<<endl;
+			system("pause");
+			system("cls");
+			shopMenu();
 		}
 		if(fMoneyOnHand < iStockNumber*COST_SUGAR)
 		{
@@ -181,8 +182,11 @@ void shopMenu()
 		//NO NEGS
 		if(iStockNumber < 0)
 		{
-			cout<<"Please enter a valid number: ";
-			cin>> iStockNumber;
+			system("cls");
+			cout<<"Please enter a valid number!"<<endl;
+			system("pause");
+			system("cls");
+			shopMenu();
 		}
 		if(fMoneyOnHand < iStockNumber*COST_ICE)
 		{
@@ -210,8 +214,9 @@ void shopMenu()
 	default: //invalid number
 		system("cls");
 		cout<<"Please enter a valid number!"<<endl;
+		system("pause");
+		system("cls");
 		shopMenu();
-		//cin >>iStockChoice;
 		break;
 		}
 }
@@ -254,12 +259,10 @@ void makeLemonade()
 	float RECIPE_SUGAR = sLemonadeRecipe.fSugarRecipe;
 	float RECIPE_ICE = sLemonadeRecipe.fIceRecipe;
 
-	//while(bMakeLemonade = true)
-	//{
 	displayStock();
 	cout<<endl;
-	cout<<"1.	Make Lemonade"<<endl;
-	cout<<"2.	Exit to Menu"<<endl;
+	cout<<"1. Make Lemonade"<<endl;
+	cout<<"2. Exit to Menu"<<endl;
 	cout<<"Please enter a number: ";
 	cin>>iLemonadeChoice;
 
@@ -270,7 +273,7 @@ void makeLemonade()
 		cout<<"How many jugs of lemonade would you like to make? ";
 		cin>>iLemonadeJug;
 		cout<<endl;
-		if(iLemonadeJug<0)
+		if(iLemonadeJug<1)
 		{
 			cout<<"Please use a positive whole number!"<<endl;
 		}
@@ -290,7 +293,7 @@ void makeLemonade()
 		else //not enough stock
 		{
 			system("cls");
-			cout<<"*~*Insufficient Ingredients!*~*"<<endl;
+			cout<<"Insufficient Ingredients!"<<endl;
 			makeLemonade();
 		}
 		}
@@ -305,7 +308,10 @@ void makeLemonade()
 	default:
 		{
 			system("cls");
-			cout<<"*~*Please enter a valid number*~*"<<endl;
+			cout<<"Please enter a valid number!"<<endl;
+			system("pause");
+			system("cls");
+			displayRecipe();
 			makeLemonade();
 		}
 		break;
@@ -318,15 +324,18 @@ void changeRecipe()
 {
 	if (sLemonadeRecipe.fLemonRecipe > sLemonadeRecipe.fSugarRecipe)
 	{
-		iLemonadeTaste = sourTaste;
-	}
-	else if (sLemonadeRecipe.fLemonRecipe < sLemonadeRecipe.fSugarRecipe)
-	{
-		iLemonadeTaste = sweetTaste;
+		//SOUR more lemon than sugar
+		iLemonadeTaste = 0;
 	}
 	else if (sLemonadeRecipe.fLemonRecipe == sLemonadeRecipe.fSugarRecipe)
 	{
-		iLemonadeTaste = standardTaste;
+		//STAND lemon sugar equal
+		iLemonadeTaste = 1;
+	}
+	else if (sLemonadeRecipe.fLemonRecipe < sLemonadeRecipe.fSugarRecipe)
+	{
+		//SWEET less lemon than sugar
+		iLemonadeTaste = 2;
 	}
 	
 	system("cls");
@@ -334,8 +343,8 @@ void changeRecipe()
 	displayRecipe();
 	cout<<endl;
 	cout<<"Would you like to alter the recipe and price?"<<endl;
-	cout<<"1.	Yes"<<endl;
-	cout<<"2.	No (Return to Menu)"<<endl;
+	cout<<"1. Yes"<<endl;
+	cout<<"2. No (Return to Menu)"<<endl;
 	cout<<"Please enter a number: ";
 	cin>>iMenuChoice;
 	cout<<endl;
@@ -412,7 +421,11 @@ void changeRecipe()
 		break;
 	default:
 		{
+			system("cls");
 			cout<<"Please choose a valid number"<<endl;
+			system("pause");
+			system("cls");
+			changeRecipe();
 		}
 		break;
 	}

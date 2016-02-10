@@ -18,4 +18,10 @@ extern void shopMenu();
 extern void randomStockPrice();
 extern void randomStockLoss();
 extern int dayTimer();
+extern int startDay();
+
 extern unsigned int diffTime, newTime;
+extern float fProfit;
+extern bool bDayCycle;
+extern int iDaysPassed;
+extern int iCustomerTotal;

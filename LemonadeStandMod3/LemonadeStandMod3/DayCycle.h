@@ -6,6 +6,7 @@
 using namespace std;
 
 extern float fMoneyOnHand;
+extern float fProfit;
 extern int iLemonadeSold;
 extern int iCustomerCount;
 extern int iCustomerCountCheap;

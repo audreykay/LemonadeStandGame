@@ -16,9 +16,11 @@ using namespace std;
 
 //dayPassed VAR
 int iDaysPassed;
-const int DAY_LENGTH = 10;
+const int DAY_LENGTH = 30; //length of daycycle in secs
 bool bDayCycle=false;
 int iWeatherCounter;
+//customer totals
+int iCustomerTotal;
 
 //RE triggers
 bool eventLemon = false;
@@ -83,7 +85,7 @@ void randomEvent()
 			eventSugar = true;
 			int iRandomSugar = rand()%(3)+1;
 			//cout<<"Rats spoiled "<<iRandomSugar<<" bag(s) of sugar!"<<endl;
-			if(fStockSugar >= 1 && fStockSugar >= iRandomSugar)
+			if(fStockSugar >= 8 && fStockSugar >= iRandomSugar)
 			{
 			fSugarLoss += (iRandomSugar*8);
 			fStockSugar -= (iRandomSugar*8);
@@ -95,7 +97,7 @@ void randomEvent()
 			eventIce = true;
 			int iRandomIce = rand()%(2)+1;
 			//cout<<iRandomIce<<" bag(s) of ice melted!"<<endl;
-			if(fStockIce >= 1 && fStockIce >= iRandomIce)
+			if(fStockIce >= 20 && fStockIce >= iRandomIce)
 			{
 			fIceLoss += (iRandomIce*20);
 			fStockIce -= (iRandomIce*20);
@@ -130,6 +132,39 @@ void randomEvent()
 	
 }
 
+int startDay()
+{
+	int iStartDay;
+	cout<<"Are you ready to open your stall for the day?"<<endl;
+	cout<<"1. Yes"<<endl;
+	cout<<"2. No (return to menu)"<<endl;
+	cout<<"Please enter a number: ";
+	cin>>iStartDay;
+	
+	switch(iStartDay)
+	{
+	case 1:
+		{
+		dayTimer();
+		}
+		break;
+	case 2:
+		{
+		return 0;
+		}
+		break;
+	default: 
+		{
+		system("cls");
+		cout<<"Please enter a valid number!"<<endl;
+		system("pause");
+		system("cls");
+		startDay();
+		}
+		break;
+	}
+}
+
 void displayEndOfDay()
 {
 	//INSERT WEATHER FAX HERE
@@ -145,7 +180,6 @@ void displayEndOfDay()
 		cout<<iCustomerCountCheap<<" customer(s) thought your lemonade was too expensive!"<<endl;
 		cout<<iCustomerCountSweet<<" customer(s) thought your lemonade was too sweet!"<<endl;
 		cout<<iCustomerCountSour<<" customer(s) thought your lemonade was too sour!"<<endl;
-
 }
 
 //run the day cycle
@@ -153,7 +187,7 @@ int dayTimer()
 {
 	//set the weather
 	iWeatherTemp = rand()%3;
-	//bool bDayCycle=true;
+	bDayCycle=true;
 	
 	static int timeAtStartOfLastUpdate = GetTickCount();
 
@@ -205,37 +239,37 @@ int dayTimer()
 		iWeatherCounter+=1;
 		//call customers& random event
 		//if customer has been called 10 times, random event
-		if(iUpdateCounter%10==0)
-		{
-			gotoxy(0,12);
-			randomEvent();
-		}
+	
 		//weather conditions
 		if(iWeatherTemp==0) //weather is cold
 		{
-			if(iWeatherCounter%6==0)
+			if(iWeatherCounter%6==0 && iWeatherCounter >= 1)
 			{
-				gotoxy(0,11);
+				gotoxy(0,9);
 				updateCustomerTimer();
 			}
 		}
 		else if(iWeatherTemp==1) //weather is average
 		{
-			if(iWeatherCounter%4==0)
+			if(iWeatherCounter%4==0 && iWeatherCounter >= 1)
 			{
-				gotoxy(0,11);
+				gotoxy(0,9);
 				updateCustomerTimer();
 			}
 		}
 		else if(iWeatherTemp==2) //weather is hot
 		{
-			if(iWeatherCounter%2==0)
+			if(iWeatherCounter%2==0 && iWeatherCounter >= 1)
 			{
-				gotoxy(0,11);
+				gotoxy(0,9);
 				updateCustomerTimer();
 			}
 		}
-
+		if(iCustomerCount%10==0 && iCustomerCount >= 1)
+			{
+				gotoxy(0,9);
+				randomEvent();
+			}
 
 		//find difference in time
 		int timeNow = GetTickCount();
@@ -434,23 +468,20 @@ int dayTimer()
 	//time left is set to CONST DAY_LENGTH (seconds)
 	unsigned secondsPassed = (diffTime)/1000; //seconds counting up
 	int timeLeft = (DAY_LENGTH) - secondsPassed;
-	
 	lastTime = lastTime + newTime;
-
-
 
 	//display day events to player
 	if(iWeatherTemp==0) //weather is cold
 		{
-			cout<<"It's COLD today!"<<endl;
+			cout<<"The WEATHER is COLD today!"<<endl;
 		}
 		else if(iWeatherTemp==1) //weather is average
 		{
-			cout<<"It's AVERAGE today!"<<endl;
+			cout<<"The WEATHER is AVERAGE today!"<<endl;
 		}
 		else if(iWeatherTemp==2) //weather is hot
 		{
-			cout<<"It's HOT today!"<<endl;
+			cout<<"The WEATHER is HOT today!"<<endl;
 		}
 	cout<<"time left in day: " <<timeLeft<<" second(s)"<<endl;
 	cout<<endl;
@@ -461,32 +492,36 @@ int dayTimer()
 	}
 	cout<<"Customers served: "<<iCustomerCount<<endl;
 	cout<<"Lemons spoiled: " <<fLemonLoss<<endl;
-	cout<<"Sugar lost to rats: " <<fSugarLoss<<" cups"<<endl;
-	cout<<"Ice melted: " <<fIceLoss<<" cups"<<endl;
+	cout<<"Sugar lost to rats: " <<fSugarLoss/8<<" bags"<<endl;
+	cout<<"Ice melted: " <<fIceLoss/20<<" bags"<<endl;
 	cout<<"Lemonade stolen by hoodlums: "<<fLemonadeLoss<<" cups"<<endl;
-	cout<<"Cash on hand: " <<fMoneyOnHand<<endl;
-	
-	
-	//if dayTime greater than 10secs, exit
+
+	//if dayTime greater than daylength, exit
 	if(secondsPassed==DAY_LENGTH)
 	{
-		//iCustomerCount
 		system("cls");
 		//END OF DAY REPORT
 		displayEndOfDay();
 		system("pause");
-		//TODO; display end of day report, clear var (lemonadestock, daily wastes)
+		fProfit+=(iLemonadeSold*sLemonadeRecipe.fLemonadePrice);
+		// display end of day report, clear var (lemonadestock, daily wastes)
 		bDayCycle=false;
 		lastTime = 0;
 		iDaysPassed += 1;
+		iCustomerTotal+=iCustomerCount;
 		return 0;
 		//clear values
 		fStockLemonade=0;
 		fLemonLoss=0;
 		fSugarLoss=0;
 		fIceLoss=0;
+		iLemonadeSold=0;
 		iUpdateCounter=0;
 		iWeatherCounter=0;
+		iCustomerCount=0;
+		iCustomerCountCheap=0;
+		iCustomerCountSour=0;
+		iCustomerCountSweet=0;
 	}
 
 }
